@@ -1,0 +1,21 @@
+
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+{{message}}
+<form method='POST'>
+    {% csrf_token %}
+    Email: <input type="email" name="email"><br>
+    Password: <input type="password" name="password">
+    <input type="submit" value="Submit">
+</form>
+Content here
+{% endblock %}
+
+
+<!-- test@gmail.com t123 satyendra@gmail.com s123 -->

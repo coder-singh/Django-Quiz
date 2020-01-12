@@ -1,0 +1,16 @@
+
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{form.password1.errors}}
+    {{form.as_p}}
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

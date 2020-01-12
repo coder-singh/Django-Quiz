@@ -1,0 +1,28 @@
+
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Create Quiz
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+Welcome {{user.first_name}}<br>
+<a href='/main/logout'>Logout</a><br><hr>
+
+{% else %}
+
+<a href='/main/register'>Register</a>&nbsp;&nbsp;
+<a href='/main/login'>Login</a><br><hr>
+
+{% endif %}
+{{form.errors}}
+<form method='POST'>
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}

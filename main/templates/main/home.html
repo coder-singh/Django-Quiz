@@ -1,0 +1,24 @@
+
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+Welcome {{user.first_name}}<br>
+<a href='/main/logout'>Logout</a><br><hr>
+
+{% else %}
+
+<a href='/main/register'>Register</a>&nbsp;&nbsp;
+<a href='/main/login'>Login</a><br><hr>
+
+{% endif %}
+
+Content here
+
+{% endblock %}
