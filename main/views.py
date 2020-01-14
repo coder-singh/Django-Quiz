@@ -88,6 +88,35 @@ def addQuestion(request):
         }
         template = 'main/addQuestion.html'
         return render(request, template, context)
+    else:
+        print('in post method')
+        quiz_id = request.POST.get('quiz_id')
+        q_text = request.POST.get('q_text')
+        q_type = request.POST.get('q_type')
+        print('quiz_id: '+quiz_id)
+        print('q_text: '+q_text)
+        print('q_type: '+q_type)
+        q_image = None
+        if 'q_image' in request.POST:
+            q_image = request.POST.get('q_image')
+            print('q_image: '+q_image)
+        q_video = None
+        if 'q_video' in request.POST:
+            q_video = request.POST.get('q_video')
+            print('q_video: '+q_video)
+
+        if int(q_type)==1:
+            answer = request.POST.get('answer')
+
+        question = Question()
+        question.quiz_id=Quiz.objects.get(pk=quiz_id)
+        question.q_text = q_text
+        question.q_type = q_type
+        question.answer=answer
+        question.save()
+
+
+        return redirect('/main/home')
 
 def takeQuiz(request):
     pass
