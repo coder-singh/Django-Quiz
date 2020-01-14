@@ -89,30 +89,105 @@ def addQuestion(request):
         template = 'main/addQuestion.html'
         return render(request, template, context)
     else:
-        print('in post method')
+        question = Question()
         quiz_id = request.POST.get('quiz_id')
-        q_text = request.POST.get('q_text')
-        q_type = request.POST.get('q_type')
-        print('quiz_id: '+quiz_id)
-        print('q_text: '+q_text)
-        print('q_type: '+q_type)
-        q_image = None
-        if 'q_image' in request.POST:
-            q_image = request.POST.get('q_image')
-            print('q_image: '+q_image)
-        q_video = None
+        question.quiz_id=Quiz.objects.get(pk=quiz_id)
+        question.q_text = request.POST.get('q_text')
+        question.q_type = request.POST.get('q_type')
+         
+        if 'q_image' in request.FILES:
+            q_image = request.FILES['q_image']
+            question.q_image=q_image
+            
         if 'q_video' in request.POST:
             q_video = request.POST.get('q_video')
-            print('q_video: '+q_video)
+            question.q_video=q_video
+            
+        if 'q_audio' in request.FILES:
+            q_audio = request.FILES['q_audio']
+            question.q_audio=q_audio
 
-        if int(q_type)==1:
-            answer = request.POST.get('answer')
+        q_type = int(request.POST.get('q_type'))
 
-        question = Question()
-        question.quiz_id=Quiz.objects.get(pk=quiz_id)
-        question.q_text = q_text
-        question.q_type = q_type
-        question.answer=answer
+        # SETTING OPTION DATA
+
+        if q_type==2 or q_type==3 or q_type==4:
+            question.a_text = request.POST.get('a_text'+str(q_type))
+
+            if 'a_image'+str(q_type) in request.FILES:
+                a_image = request.FILES['a_image'+str(q_type)]
+                question.a_image=a_image
+
+            if 'a_video'+str(q_type) in request.POST:
+                a_video = request.POST.get('a_video'+str(q_type))
+                question.a_video=a_video
+                
+            if 'a_audio'+str(q_type) in request.FILES:
+                a_audio = request.FILES['a_audio'+str(q_type)]
+                question.a_audio=a_audio
+                
+            question.b_text = request.POST.get('b_text'+str(q_type))
+            
+            if 'b_image'+str(q_type) in request.FILES:
+                b_image = request.FILES['b_image'+str(q_type)]
+                question.b_image=b_image
+
+            if 'b_video'+str(q_type) in request.POST:
+                b_video = request.POST.get('b_video'+str(q_type))
+                question.b_video=b_video
+                
+            if 'b_audio'+str(q_type) in request.FILES:
+                b_audio = request.FILES['b_audio'+str(q_type)]
+                question.b_audio=b_audio
+                
+            question.c_text = request.POST.get('c_text'+str(q_type))
+            
+            if 'c_image'+str(q_type) in request.FILES:
+                c_image = request.FILES['c_image'+str(q_type)]
+                question.c_image=c_image
+
+            if 'c_video'+str(q_type) in request.POST:
+                c_video = request.POST.get('c_video'+str(q_type))
+                question.c_video=c_video
+                
+            if 'c_audio'+str(q_type) in request.FILES:
+                c_audio = request.FILES['c_audio'+str(q_type)]
+                question.c_audio=c_audio
+                
+            question.d_text = request.POST.get('d_text'+str(q_type))
+            
+            if 'd_image'+str(q_type) in request.FILES:
+                d_image = request.FILES['d_image'+str(q_type)]
+                question.d_image=d_image
+
+            if 'd_video'+str(q_type) in request.POST:
+                d_video = request.POST.get('d_video'+str(q_type))
+                question.d_video=d_video
+                
+            if 'd_audio'+str(q_type) in request.FILES:
+                d_audio = request.FILES['d_audio'+str(q_type)]
+                question.d_audio=d_audio
+
+        elif q_type==5:
+            pass
+
+        # SETTING ANSWER DATA
+        if q_type==1:
+            question.answer = request.POST.get('answer1')
+
+        elif q_type==2:
+            question.answer = request.POST.get('answer2')
+        
+        elif q_type==3:
+            question.answer = ','.join(request.POST.getlist('answer3'))
+        
+        elif q_type==4:
+            resultString = request.POST.get('answerA')+','+request.POST.get('answerB')+','+request.POST.get('answerC')+','+request.POST.get('answerD')
+            question.answer = resultString
+
+        elif q_type==5:
+            pass
+            
         question.save()
 
 
