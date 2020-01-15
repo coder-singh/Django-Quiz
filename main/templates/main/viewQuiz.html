@@ -237,6 +237,8 @@ passing: {{quiz.pass_marks}}, max: {{quiz.max_marks}}, time: {{quiz.time}} minut
     {% if q.q_type == 5 %}
         matching
     {% endif %}
+    <br>
+    <a href="{% url 'editQuestion' %}?id={{q.id}}">Edit Question</a>
 </div>
 {% endfor %}
 {% endblock %}

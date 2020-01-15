@@ -1,4 +1,5 @@
 {% extends 'main/base.html' %}
+{% load main_filters %}
 {% load staticfiles %}
 
 {% block title %}
@@ -19,7 +20,9 @@ function toggle(str, checkbox){
     }
 }
 $(document).ready(function(){
-    let currentType = 1;
+    let currentType = {{q.q_type}};
+    $("#div_type"+currentType).removeClass("hide");
+    $("input[name=q_type][value=" + currentType + "]").prop('checked', true);
     $('input[name="q_type"]').click(function(){
         let val = $('input[name="q_type"]:checked').val();
         $("#div_type"+currentType).css("display", "none");
@@ -52,13 +55,12 @@ $(document).ready(function(){
 {% block content %}
 <form method='POST' enctype="multipart/form-data">
     {% csrf_token %}
-    <input type="hidden" name="quiz_id" value="{{id}}">
-    Question: <input type="text" name="q_text"><br>
+    Question: <input type="text" name="q_text" value="{{q.q_text}}"><br>
     Image <input type="checkbox" onclick="toggle('q_image', $(this))"> Video <input type="checkbox" onclick="toggle('q_video', $(this))"> Audio <input type="checkbox" onclick="toggle('q_audio', $(this))"><br>
     <span id="q_image" class="hide">Image: <input type="file" name="q_image" accept="image/*" disabled><br></span>
     <span id="q_video" class="hide">Video: <input type="text" name="q_video" disabled><br></span>
     <span id="q_audio" class="hide">Audio: <input type="file" name="q_audio" accept="audio/*" disabled><br></span>
-    Marks : <input type="number" name="marks"><br>
+    Marks : <input type="number" name="marks" value={{q.marks}}><br>
 
     <br><hr><br>
     <input type="radio" name="q_type" value="1" >True/False&nbsp;&nbsp;
@@ -68,117 +70,118 @@ $(document).ready(function(){
     <input type="radio" name="q_type" value="5">Matching&nbsp;&nbsp;
     <br><hr><br>
 
-    <div id="div_type1">
+    <div id="div_type1" class="hide">
         <br>Answer: 
-        <input type="radio" name="answer1" value="1">True&nbsp;&nbsp;
-        <input type="radio" name="answer1" value="0">False
+        <input type="radio" name="answer1" value="1" {% if q.answer == '1' %}checked="checked"{% endif %}>True&nbsp;&nbsp;
+        <input type="radio" name="answer1" value="0" {% if q.answer == '0' %}checked="checked"{% endif %}>False
     </div>
     
     <div id="div_type2" class="hide">
         Single MCQ div<br><br>
         
-        Option A: <input type="text" name="a_text2"><br>
-        Image <input type="checkbox" onclick="toggle('a_image2', $(this))"> Video <input type="checkbox" onclick="toggle('a_video2', $(this))"><br> Audio <input type="checkbox" onclick="toggle('a_audio2', $(this))"><br>
+        Option A: <input type="text" name="a_text2" value="{{q.a_text}}"><br>
+        Image <input type="checkbox" onclick="toggle('a_image2', $(this))"> Video <input type="checkbox" onclick="toggle('a_video2', $(this))"> Audio <input type="checkbox" onclick="toggle('a_audio2', $(this))"><br>
         <span id="a_image2" class="hide">Image: <input type="file" name="a_image2" accept="image/*" disabled><br></span>
         <span id="a_video2" class="hide">Video: <input type="text" name="a_video2" disabled><br></span>
         <span id="a_audio2" class="hide">Audio: <input type="file" name="a_audio2" accept="audio/*" disabled><br></span>
         
-        Option B: <input type="text" name="b_text2"><br>
-        Image <input type="checkbox" onclick="toggle('b_image2', $(this))"> Video <input type="checkbox" onclick="toggle('b_video2', $(this))"><br> Audio <input type="checkbox" onclick="toggle('b_audio2', $(this))"><br>
+        Option B: <input type="text" name="b_text2" value="{{q.b_text}}"><br>
+        Image <input type="checkbox" onclick="toggle('b_image2', $(this))"> Video <input type="checkbox" onclick="toggle('b_video2', $(this))"> Audio <input type="checkbox" onclick="toggle('b_audio2', $(this))"><br>
         <span id="b_image2" class="hide">Image: <input type="file" name="b_image2" accept="image/*" disabled><br></span>
         <span id="b_video2" class="hide">Video: <input type="text" name="b_video2" disabled><br></span>
         <span id="b_audio2" class="hide">Audio: <input type="file" name="b_audio2" accept="audio/*" disabled><br></span>
         
-        Opton C: <input type="text" name="c_text2"><br>
-        Image <input type="checkbox" onclick="toggle('c_image2', $(this))"> Video <input type="checkbox" onclick="toggle('c_video2', $(this))"><br> Audio <input type="checkbox" onclick="toggle('c_audio2', $(this))"><br>
+        Opton C: <input type="text" name="c_text2" value="{{q.c_text}}"><br>
+        Image <input type="checkbox" onclick="toggle('c_image2', $(this))"> Video <input type="checkbox" onclick="toggle('c_video2', $(this))"> Audio <input type="checkbox" onclick="toggle('c_audio2', $(this))"><br>
         <span id="c_image2" class="hide">Image: <input type="file" name="c_image2" accept="image/*" disabled><br></span>
         <span id="c_video2" class="hide">Video: <input type="text" name="c_video2" disabled><br></span>
         <span id="c_audio2" class="hide">Audio: <input type="file" name="c_audio2" accept="audio/*" disabled><br></span>
         
-        Option D: <input type="text" name="d_text2"><br>
-        Image <input type="checkbox" onclick="toggle('d_image2', $(this))"> Video <input type="checkbox" onclick="toggle('d_video2', $(this))"><br> Audio <input type="checkbox" onclick="toggle('d_audio2', $(this))"><br>
+        Option D: <input type="text" name="d_text2" value="{{q.d_text}}"><br>
+        Image <input type="checkbox" onclick="toggle('d_image2', $(this))"> Video <input type="checkbox" onclick="toggle('d_video2', $(this))"> Audio <input type="checkbox" onclick="toggle('d_audio2', $(this))"><br>
         <span id="d_image2" class="hide">Image: <input type="file" name="d_image2" accept="image/*" disabled><br></span>
         <span id="d_video2" class="hide">Video: <input type="text" name="d_video2" disabled><br></span>
         <span id="d_audio2" class="hide">Audio: <input type="file" name="d_audio2" accept="audio/*" disabled><br></span>
 
         <br>Answer: 
-        <input type="radio" name="answer2" value="1">A&nbsp;&nbsp;
-        <input type="radio" name="answer2" value="2">B&nbsp;&nbsp;
-        <input type="radio" name="answer2" value="3">C&nbsp;&nbsp;
-        <input type="radio" name="answer2" value="4">D&nbsp;&nbsp;
+        <input type="radio" name="answer2" value="1" {% if q.answer == '1' %}checked="checked"{% endif %}>A&nbsp;&nbsp;
+        <input type="radio" name="answer2" value="2" {% if q.answer == '2' %}checked="checked"{% endif %}>B&nbsp;&nbsp;
+        <input type="radio" name="answer2" value="3" {% if q.answer == '3' %}checked="checked"{% endif %}>C&nbsp;&nbsp;
+        <input type="radio" name="answer2" value="4" {% if q.answer == '4' %}checked="checked"{% endif %}>D
     </div>
     
     <div id="div_type3" class="hide">
         Multiple MCQ div<br><br>
         
-        Option A: <input type="text" name="a_text3"><br>
-        Image <input type="checkbox" onclick="toggle('a_image3', $(this))"> Video <input type="checkbox" onclick="toggle('a_video3', $(this))"><br> Audio <input type="checkbox" onclick="toggle('a_audio3', $(this))"><br>
+        Option A: <input type="text" name="a_text3" value="{{q.a_text}}"><br>
+        Image <input type="checkbox" onclick="toggle('a_image3', $(this))"> Video <input type="checkbox" onclick="toggle('a_video3', $(this))"> Audio <input type="checkbox" onclick="toggle('a_audio3', $(this))"><br>
         <span id="a_image3" class="hide">Image: <input type="file" name="a_image" accept="image/*" disabled><br></span>
         <span id="a_video3" class="hide">Video: <input type="text" name="a_video" disabled><br></span>
         <span id="a_audio3" class="hide">Audio: <input type="file" name="a_audio3" accept="audio/*" disabled><br></span>
         
-        Option B: <input type="text" name="b_text3"><br>
-        Image <input type="checkbox" onclick="toggle('b_image3', $(this))"> Video <input type="checkbox" onclick="toggle('b_video3', $(this))"><br> Audio <input type="checkbox" onclick="toggle('b_audio3', $(this))"><br>
+        Option B: <input type="text" name="b_text3" value="{{q.b_text}}"><br>
+        Image <input type="checkbox" onclick="toggle('b_image3', $(this))"> Video <input type="checkbox" onclick="toggle('b_video3', $(this))"> Audio <input type="checkbox" onclick="toggle('b_audio3', $(this))"><br>
         <span id="b_image3" class="hide">Image: <input type="file" name="b_image3" accept="image/*" disabled><br></span>
         <span id="b_video3" class="hide">Video: <input type="text" name="b_video3" disabled><br></span>
         <span id="b_audio3" class="hide">Audio: <input type="file" name="b_audio3" accept="audio/*" disabled><br></span>
         
-        Opton C: <input type="text" name="c_text3"><br>
-        Image <input type="checkbox" onclick="toggle('c_image3', $(this))"> Video <input type="checkbox" onclick="toggle('c_video3', $(this))"><br> Audio <input type="checkbox" onclick="toggle('c_audio3', $(this))"><br>
+        Opton C: <input type="text" name="c_text3" value="{{q.c_text}}"><br>
+        Image <input type="checkbox" onclick="toggle('c_image3', $(this))"> Video <input type="checkbox" onclick="toggle('c_video3', $(this))"> Audio <input type="checkbox" onclick="toggle('c_audio3', $(this))"><br>
         <span id="c_image3" class="hide">Image: <input type="file" name="c_image3" accept="image/*" disabled><br></span>
         <span id="c_video3" class="hide">Video: <input type="text" name="c_video3" disabled><br></span>
         <span id="c_audio3" class="hide">Audio: <input type="file" name="c_audio3" accept="audio/*" disabled><br></span>
         
-        Option D: <input type="text" name="d_text3"><br>
-        Image <input type="checkbox" onclick="toggle('d_image3', $(this))"> Video <input type="checkbox" onclick="toggle('d_video3', $(this))"><br> Audio <input type="checkbox" onclick="toggle('d_audio3', $(this))"><br>
+        Option D: <input type="text" name="d_text3" value="{{q.d_text}}"><br>
+        Image <input type="checkbox" onclick="toggle('d_image3', $(this))"> Video <input type="checkbox" onclick="toggle('d_video3', $(this))"> Audio <input type="checkbox" onclick="toggle('d_audio3', $(this))"><br>
         <span id="d_image3" class="hide">Image: <input type="file" name="d_image3" accept="image/*" disabled><br></span>
         <span id="d_video3" class="hide">Video: <input type="text" name="d_video3" disabled><br></span>
         <span id="d_audio3" class="hide">Audio: <input type="file" name="d_audio3" accept="audio/*" disabled><br></span>
 
         <br>Answer: 
-        <input type="checkbox" name="answer3" value="1">A&nbsp;&nbsp;
-        <input type="checkbox" name="answer3" value="2">B&nbsp;&nbsp;
-        <input type="checkbox" name="answer3" value="3">C&nbsp;&nbsp;
-        <input type="checkbox" name="answer3" value="4">D&nbsp;&nbsp;
+        <input type="checkbox" name="answer3" value="1" {% if '1' in q.answer %}checked="checked"{% endif %}>A&nbsp;&nbsp;
+        <input type="checkbox" name="answer3" value="2" {% if '2' in q.answer %}checked="checked"{% endif %}>B&nbsp;&nbsp;
+        <input type="checkbox" name="answer3" value="3" {% if '3' in q.answer %}checked="checked"{% endif %}>C&nbsp;&nbsp;
+        <input type="checkbox" name="answer3" value="4" {% if '4' in q.answer %}checked="checked"{% endif %}>D
     </div>
     
     <div id="div_type4" class="hide">
         Sequene Div<br><br>
         
-        Option A: <input type="text" name="a_text4"><br>
-        Image <input type="checkbox" onclick="toggle('a_image4', $(this))"> Video <input type="checkbox" onclick="toggle('a_video4', $(this))"><br> Audio <input type="checkbox" onclick="toggle('a_audio4', $(this))"><br>
+        Option A: <input type="text" name="a_text4" value="{{q.a_text}}"><br>
+        Image <input type="checkbox" onclick="toggle('a_image4', $(this))"> Video <input type="checkbox" onclick="toggle('a_video4', $(this))"> Audio <input type="checkbox" onclick="toggle('a_audio4', $(this))"><br>
         <span id="a_image4" class="hide">Image: <input type="file" name="a_image4" accept="image/*" disabled><br></span>
         <span id="a_video4" class="hide">Video: <input type="text" name="a_video4" disabled><br></span>
         <span id="a_audio4" class="hide">Audio: <input type="file" name="a_audio4" accept="audio/*" disabled><br></span>
         
-        Option B: <input type="text" name="b_text4"><br>
-        Image <input type="checkbox" onclick="toggle('b_image4', $(this))"> Video <input type="checkbox" onclick="toggle('b_video4', $(this))"><br> Audio <input type="checkbox" onclick="toggle('b_audio4', $(this))"><br>
+        Option B: <input type="text" name="b_text4" value="{{q.b_text}}"><br>
+        Image <input type="checkbox" onclick="toggle('b_image4', $(this))"> Video <input type="checkbox" onclick="toggle('b_video4', $(this))"> Audio <input type="checkbox" onclick="toggle('b_audio4', $(this))"><br>
         <span id="b_image4" class="hide">Image: <input type="file" name="b_image4" accept="image/*" disabled><br></span>
         <span id="b_video4" class="hide">Video: <input type="text" name="b_video4" disabled><br></span>
         <span id="b_audio4" class="hide">Audio: <input type="file" name="b_audio4" accept="audio/*" disabled><br></span>
         
-        Opton C: <input type="text" name="c_text4"><br>
-        Image <input type="checkbox" onclick="toggle('c_image4', $(this))"> Video <input type="checkbox" onclick="toggle('c_video4', $(this))"><br> Audio <input type="checkbox" onclick="toggle('c_audio4', $(this))"><br>
+        Opton C: <input type="text" name="c_text4" value="{{q.c_text}}"><br>
+        Image <input type="checkbox" onclick="toggle('c_image4', $(this))"> Video <input type="checkbox" onclick="toggle('c_video4', $(this))"> Audio <input type="checkbox" onclick="toggle('c_audio4', $(this))"><br>
         <span id="c_image4" class="hide">Image: <input type="file" name="c_image4" accept="image/*" disabled><br></span>
         <span id="c_video4" class="hide">Video: <input type="text" name="c_video4" disabled><br></span>
         <span id="c_audio4" class="hide">Audio: <input type="file" name="c_audio4" accept="audio/*" disabled><br></span>
         
-        Option D: <input type="text" name="d_text4"><br>
-        Image <input type="checkbox" onclick="toggle('d_image4', $(this))"> Video <input type="checkbox" onclick="toggle('d_video4', $(this))"><br> Audio <input type="checkbox" onclick="toggle('d_audio4', $(this))"><br>
+        Option D: <input type="text" name="d_text4" value="{{q.d_text}}"><br>
+        Image <input type="checkbox" onclick="toggle('d_image4', $(this))"> Video <input type="checkbox" onclick="toggle('d_video4', $(this))"> Audio <input type="checkbox" onclick="toggle('d_audio4', $(this))"><br>
         <span id="d_image4" class="hide">Image: <input type="file" name="d_image4" accept="image/*" disabled><br></span>
         <span id="d_video4" class="hide">Video: <input type="text" name="d_video4" disabled><br></span>
         <span id="d_audio4" class="hide">Audio: <input type="file" name="d_audio4" accept="audio/*" disabled><br></span>
-        <br>Answer: <input type="text" name="answerA" style="width: 30px;">=>
-        <input type="text" name="answerB" style="width: 30px;">=>
-        <input type="text" name="answerC" style="width: 30px;">=>
-        <input type="text" name="answerD" style="width: 30px;">
+        <br>Answer: 
+        <input type="text" name="answerA" value={% with q.answer|split as answers %}{{answers.0}}{% endwith %}>->
+        <input type="text" name="answerB" value={% with q.answer|split as answers %}{{answers.1}}{% endwith %}>->
+        <input type="text" name="answerC" value={% with q.answer|split as answers %}{{answers.2}}{% endwith %}>->
+        <input type="text" name="answerD" value={% with q.answer|split as answers %}{{answers.3}}{% endwith %}>
     </div>
     
     <div id="div_type5" class="hide">
         Matching Div
         <br>Answer: <input type="text" name="answer">
     </div>
-
+    <input type="hidden" name="question_id" value="{{q.id}}">
     <br><br><hr><br><input type="submit" value="Submit">
 </form>
 {% endblock %}
