@@ -78,7 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Quiz(models.Model):
     name = models.CharField(max_length=20, db_column='Name')
     time = models.IntegerField(db_column='Time', blank=True, null=True)
-    tutor_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='Tutor_Id')
+    tutor = models.ForeignKey(User, on_delete=models.CASCADE, db_column='Tutor_Id')
     max_marks = models.IntegerField(db_column='Max_Marks')
     pass_marks = models.IntegerField(db_column='Passing_Marks')
     no_questions = models.IntegerField(db_column='Number_Questions')
@@ -93,7 +93,7 @@ class QuestionType(models.Model):
         db_table = 'Question_Type'
 
 class Question(models.Model):
-    quiz_id = models.ForeignKey(Quiz, on_delete=models.CASCADE, db_column='Quiz_Id', blank=True, null=True)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, db_column='Quiz_Id', blank=True, null=True)
     q_text = models.CharField(max_length=100, db_column='Question_Text', blank=True, null=True)
     q_image = models.ImageField(upload_to='images/question/', db_column='Question_Image', blank=True, null=True) 
     q_audio = models.FileField(upload_to='audios/question/', db_column='Question_Audio', blank=True, null=True) 
@@ -116,6 +116,15 @@ class Question(models.Model):
     d_video = models.CharField(max_length=100, db_column='Option4_Video', blank=True, null=True)
     d_audio = models.FileField(upload_to='audios/answer/', db_column='Option4_Audio', blank=True, null=True) 
     answer = models.CharField(max_length=20, db_column='Answer', blank=True, null=True)
+    marks = models.IntegerField(db_column='Marks', blank=True, null=True)
 
     class Meta:
         db_table = 'Question'
+
+class Attempt(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE, db_column='Student_Id')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, db_column='Question_Id')
+    answer = models.CharField(max_length=20, db_column='Answer', blank=True, null=True)
+
+    class Meta:
+        db_table='Attempt'

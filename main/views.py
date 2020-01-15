@@ -3,6 +3,7 @@ from .forms import *
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
+from .models import *
 
 # Create your views here.
 def home(request):
@@ -67,7 +68,7 @@ def createQuiz(request):
         if quizForm.is_valid():
             print('form is valid')
             quiz = quizForm.save(commit=False)
-            quiz.tutor_id = request.user
+            quiz.tutor = request.user
             quiz.save()
             return redirect('/main/addQuestion/?id='+str(quiz.id))
         else:
@@ -91,7 +92,7 @@ def addQuestion(request):
     else:
         question = Question()
         quiz_id = request.POST.get('quiz_id')
-        question.quiz_id=Quiz.objects.get(pk=quiz_id)
+        question.quiz=Quiz.objects.get(pk=quiz_id)
         question.q_text = request.POST.get('q_text')
         question.q_type = request.POST.get('q_type')
          
@@ -193,5 +194,97 @@ def addQuestion(request):
 
         return redirect('/main/home')
 
+@login_required
+def viewQuiz(request):
+    if request.method == 'GET':
+        quiz_id = request.GET['id']
+        quiz = Quiz.objects.select_related('tutor').get(pk=quiz_id)
+        questions = Question.objects.filter(quiz_id=quiz_id)
+        context = {
+            'quiz': quiz,
+            'questions': questions,
+        }
+        template = 'main/viewQuiz.html'
+        return render(request, template, context)
+
 def takeQuiz(request):
-    pass
+    if request.method=='GET':
+        quiz_id = request.GET['id']
+        quiz = Quiz.objects.select_related('tutor').get(pk=quiz_id)
+        questions = Question.objects.filter(quiz=quiz)
+        question_count = questions.count()
+        question = None
+        if question_count > 0:
+            question = questions[0]
+
+        context = {
+            'quiz': quiz,
+            'q': question,
+            'question_no': 1,
+        }
+        template = 'main/takeQuiz.html'
+        return render(request, template, context)
+    else:
+        quiz_id = request.POST.get('quiz_id')
+        quiz = Quiz.objects.select_related('tutor').get(pk=quiz_id)
+        q_type = int(request.POST.get('question_type'))
+        question_no = int(request.POST.get('question_no'))
+        questions = Question.objects.filter(quiz=quiz)
+        question_count = questions.count()
+        last_question=False
+
+        attempt = Attempt()
+        attempt.question_id = request.POST.get('question_id')
+        attempt.student = request.user
+
+        if q_type==1:
+            attempt.answer = request.POST.get('answer1')
+
+        elif q_type==2:
+            attempt.answer = request.POST.get('answer2')
+        
+        elif q_type==3:
+            attempt.answer = ','.join(request.POST.getlist('answer3'))
+        
+        elif q_type==4:
+            resultString = request.POST.get('answerA')+','+request.POST.get('answerB')+','+request.POST.get('answerC')+','+request.POST.get('answerD')
+            attempt.answer = resultString
+
+        elif q_type==5:
+            pass
+
+        attempt.save()
+
+        if int(question_no) == (question_count-1):
+            last_question = True
+        elif int(question_no) == question_count:
+            return redirect('/main/viewResult/?s_id='+str(request.user.id)+'&q_id='+str(quiz.id))
+        
+        question = questions[question_no]
+        context = {
+            'last_question': last_question,
+            'q': question,
+            'quiz': quiz,
+            'question_no': question_no + 1,
+        }
+        template = 'main/takeQuiz.html'
+        return render(request, template, context)
+
+def viewResult(request):
+    quiz_id = request.GET['q_id']
+    s_id = request.GET['s_id']
+    quiz = Quiz.objects.select_related('tutor').get(pk=quiz_id)
+    question_ids = Question.objects.filter(quiz_id=quiz_id).values_list('id', flat=True)
+    attempts = Attempt.objects.select_related('question').filter(student_id=s_id, question_id__in=question_ids)
+    score = 0
+    for a in attempts:
+        if a.answer==a.question.answer:
+            score += a.question.marks
+    print(score)
+    context = {
+        'score': score,
+        'attempts': attempts,
+        'quiz': quiz
+    }
+    template = 'main/viewResult.html'
+    return render(request, template, context)

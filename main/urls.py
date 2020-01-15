@@ -22,6 +22,8 @@ urlpatterns = [
     path('logout/', main_views.user_logout, name='logout'),
     path('register/', main_views.register, name='register'),
     path('createQuiz/', main_views.createQuiz, name='createQuiz'),
+    path('viewQuiz/', main_views.viewQuiz, name='viewQuiz'),
     path('takeQuiz/', main_views.takeQuiz, name='takeQuiz'),
     path('addQuestion/', main_views.addQuestion, name='addQuestion'),
+    path('viewResult/', main_views.viewResult, name="viewResult"),
 ]

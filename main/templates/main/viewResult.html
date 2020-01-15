@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+{% load main_filters %}
+{% load staticfiles %}
+
+{% block title %}
+Result
+{% endblock %}
+
+{% block content %}
+<h2>{{quiz.name}} by {{quiz.tutor.first_name}}</h2>
+passing: {{quiz.pass_marks}}, max: {{quiz.max_marks}}, time: {{quiz.time}} minutes<br>
+<hr>
+your score: {{score}}
+
+{% endblock %}
