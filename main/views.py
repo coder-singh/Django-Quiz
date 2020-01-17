@@ -172,7 +172,116 @@ def addQuestion(request):
                 question.d_audio=d_audio
 
         elif q_type==5:
-            pass
+            question.a_text = request.POST.get('a_text'+str(q_type))
+
+            if 'a_image'+str(q_type) in request.FILES:
+                a_image = request.FILES['a_image'+str(q_type)]
+                question.a_image=a_image
+
+            if 'a_video'+str(q_type) in request.POST:
+                a_video = request.POST.get('a_video'+str(q_type))
+                question.a_video=a_video
+                
+            if 'a_audio'+str(q_type) in request.FILES:
+                a_audio = request.FILES['a_audio'+str(q_type)]
+                question.a_audio=a_audio
+                
+            question.b_text = request.POST.get('b_text'+str(q_type))
+            
+            if 'b_image'+str(q_type) in request.FILES:
+                b_image = request.FILES['b_image'+str(q_type)]
+                question.b_image=b_image
+
+            if 'b_video'+str(q_type) in request.POST:
+                b_video = request.POST.get('b_video'+str(q_type))
+                question.b_video=b_video
+                
+            if 'b_audio'+str(q_type) in request.FILES:
+                b_audio = request.FILES['b_audio'+str(q_type)]
+                question.b_audio=b_audio
+                
+            question.c_text = request.POST.get('c_text'+str(q_type))
+            
+            if 'c_image'+str(q_type) in request.FILES:
+                c_image = request.FILES['c_image'+str(q_type)]
+                question.c_image=c_image
+
+            if 'c_video'+str(q_type) in request.POST:
+                c_video = request.POST.get('c_video'+str(q_type))
+                question.c_video=c_video
+                
+            if 'c_audio'+str(q_type) in request.FILES:
+                c_audio = request.FILES['c_audio'+str(q_type)]
+                question.c_audio=c_audio
+                
+            question.d_text = request.POST.get('d_text'+str(q_type))
+            
+            if 'd_image'+str(q_type) in request.FILES:
+                d_image = request.FILES['d_image'+str(q_type)]
+                question.d_image=d_image
+
+            if 'd_video'+str(q_type) in request.POST:
+                d_video = request.POST.get('d_video'+str(q_type))
+                question.d_video=d_video
+                
+            if 'd_audio'+str(q_type) in request.FILES:
+                d_audio = request.FILES['d_audio'+str(q_type)]
+                question.d_audio=d_audio
+            question.a2_text = request.POST.get('a2_text'+str(q_type))
+
+            if 'a2_image'+str(q_type) in request.FILES:
+                a2_image = request.FILES['a2_image'+str(q_type)]
+                question.a2_image=a2_image
+
+            if 'a2_video'+str(q_type) in request.POST:
+                a2_video = request.POST.get('a2_video'+str(q_type))
+                question.a2_video=a2_video
+                
+            if 'a2_audio'+str(q_type) in request.FILES:
+                a2_audio = request.FILES['a2_audio'+str(q_type)]
+                question.a2_audio=a_audio
+                
+            question.b2_text = request.POST.get('b2_text'+str(q_type))
+            
+            if 'b2_image'+str(q_type) in request.FILES:
+                b2_image = request.FILES['b2_image'+str(q_type)]
+                question.b2_image=b2_image
+
+            if 'b2_video'+str(q_type) in request.POST:
+                b2_video = request.POST.get('b2_video'+str(q_type))
+                question.b2_video=b2_video
+                
+            if 'b2_audio'+str(q_type) in request.FILES:
+                b2_audio = request.FILES['b2_audio'+str(q_type)]
+                question.b2_audio=b2_audio
+                
+            question.c2_text = request.POST.get('c2_text'+str(q_type))
+            
+            if 'c2_image'+str(q_type) in request.FILES:
+                c2_image = request.FILES['c2_image'+str(q_type)]
+                question.c2_image=c2_image
+
+            if 'c2_video'+str(q_type) in request.POST:
+                c2_video = request.POST.get('c2_video'+str(q_type))
+                question.c2_video=c2_video
+                
+            if 'c2_audio'+str(q_type) in request.FILES:
+                c2_audio = request.FILES['c2_audio'+str(q_type)]
+                question.c2_audio=c2_audio
+                
+            question.d_text = request.POST.get('d2_text'+str(q_type))
+            
+            if 'd2_image'+str(q_type) in request.FILES:
+                d2_image = request.FILES['d2_image'+str(q_type)]
+                question.d2_image=d2_image
+
+            if 'd2_video'+str(q_type) in request.POST:
+                d2_video = request.POST.get('d2_video'+str(q_type))
+                question.d2_video=d2_video
+                
+            if 'd2_audio'+str(q_type) in request.FILES:
+                d2_audio = request.FILES['d2_audio'+str(q_type)]
+                question.d2_audio=d2_audio
 
         # SETTING ANSWER DATA
         if q_type==1:
@@ -189,7 +298,8 @@ def addQuestion(request):
             question.answer = resultString
 
         elif q_type==5:
-            pass
+            resultString = request.POST.get('answerma')+','+request.POST.get('answermb')+','+request.POST.get('answermc')+','+request.POST.get('answermd')
+            question.answer = resultString
             
         question.save()
 
@@ -253,7 +363,8 @@ def takeQuiz(request):
             attempt.answer = resultString
 
         elif q_type==5:
-            pass
+            resultString = request.POST.get('answerma')+','+request.POST.get('answermb')+','+request.POST.get('answermc')+','+request.POST.get('answermd')
+            attempt.answer = resultString
 
         attempt.save()
 
