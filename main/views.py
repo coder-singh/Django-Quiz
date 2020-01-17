@@ -7,8 +7,9 @@ from .models import *
 
 # Create your views here.
 def home(request):
+    quizzes = Quiz.objects.all()
     context = {
-
+        'quizzes': quizzes,
     }
     template = 'main/home.html'
     return render(request, template, context)

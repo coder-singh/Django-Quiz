@@ -9,14 +9,16 @@ Create Quiz
 {% block content %}
 {% if user.is_authenticated %}
 
-Welcome {{user.first_name}}<br>
-<a href='/main/logout'>Logout</a><br><hr>
-
+<div class="row mb-4">
+    <div class="col-md-3">Welcome {{user.first_name}}</div>
+    <div class="col-md-6"></div>
+    <div class="col-md-3"><a href='/main/logout'>Logout</a>&nbsp;&nbsp;</div>
+</div>
 {% else %}
-
-<a href='/main/register'>Register</a>&nbsp;&nbsp;
-<a href='/main/login'>Login</a><br><hr>
-
+<div class="row mb-4">
+    <div class="col-md-9"></div>
+    <div class="col-md-3"><a href='/main/register'>Register</a>&nbsp;&nbsp;<a href='/main/login'>Login</a></div>
+</div>
 {% endif %}
 {{form.errors}}
 <form method='POST'>

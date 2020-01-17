@@ -11,10 +11,9 @@ Login
 <form method='POST'>
     {% csrf_token %}
     Email: <input type="email" name="email"><br>
-    Password: <input type="password" name="password">
-    <input type="submit" value="Submit">
+    Password: <input type="password" name="password"><br>
+    <input type="submit" class="btn btn-primary" value="Submit">
 </form>
-Content here
 {% endblock %}
 
 

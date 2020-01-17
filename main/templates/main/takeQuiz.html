@@ -14,84 +14,87 @@ passing: {{quiz.pass_marks}}, max: {{quiz.max_marks}}, time: {{quiz.time}} minut
 <div style="margin-top: 50px;">
 <form method="post">
     {% csrf_token %}
-    Question: {{q.q_text}}<br>
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">Question: {{q.q_text}}</div>
+            <div class="card-text">
     {% if q.q_image != '' %}
-        <img src="/media/{{q.q_image}}" width=5%><br>
+        <img src="/media/{{q.q_image}}" width=5%>
     {% endif %}
     {% if q.q_video != None %}
     <iframe width="300" height="200" src="{{q.q_video}}" frameborder="0" allowfullscreen></iframe>
-    </iframe><br>
+    </iframe>
     {% endif %}
     {% if q.q_audio != '' %}
     <audio controls>
         <source src="/media/{{q_audio}}" type="audio/mpeg">
         Your browser does not support the audio element.
-    </audio><br>
+    </audio>
     {% endif %}
     {% if q.q_type == 1 %}
     <input type="radio" name="answer1" value="1">True&nbsp;&nbsp;
     <input type="radio" name="answer1" value="0">False
-    {% endif %}
+    {% endif %}<br>
     
     {% if q.q_type == 2 %}
-        A){{q.a_text}}<br>
+        A){{q.a_text}}
         {% if q.a_image != '' %}
-            <img src="/media/{{q.a_image}}" width=5%><br>
+            <img src="/media/{{q.a_image}}" width=5%>
         {% endif %}
         {% if q.a_video != None %}
         <iframe width="300" height="200" src="{{q.a_video}}" frameborder="0" allowfullscreen></iframe>
-        </iframe><br>
+        </iframe>
         {% endif %}
         {% if q.a_audio != '' %}
         <audio controls>
             <source src="/media/{{a_audio}}" type="audio/mpeg">
             Your browser does not support the audio element.
-        </audio><br>
+        </audio>
         {% endif %}<br>
 
-        B){{q.b_text}}<br>
+        B){{q.b_text}}
         {% if q.b_image != '' %}
-            <img src="/media/{{q.b_image}}" width=5%><br>
+            <img src="/media/{{q.b_image}}" width=5%>
         {% endif %}
         {% if q.b_video != None %}
         <iframe width="300" height="200" src="{{q.b_video}}" frameborder="0" allowfullscreen></iframe>
-        </iframe><br>
+        </iframe>
         {% endif %}
         {% if q.b_audio != '' %}
         <audio controls>
             <source src="/media/{{b_audio}}" type="audio/mpeg">
             Your browser does not support the audio element.
-        </audio><br>
+        </audio>
         {% endif %}<br>
 
-        C){{q.c_text}}<br>
+        C){{q.c_text}}
         {% if q.c_image != '' %}
-            <img src="/media/{{q.c_image}}" width=5%><br>
+            <img src="/media/{{q.c_image}}" width=5%>
         {% endif %}
         {% if q.c_video != None %}
         <iframe width="300" height="200" src="{{q.c_video}}" frameborder="0" allowfullscreen></iframe>
-        </iframe><br>
+        </iframe>
         {% endif %}
         {% if q.c_audio != '' %}
         <audio controls>
             <source src="/media/{{c_audio}}" type="audio/mpeg">
             Your browser does not support the audio element.
-        </audio><br>
+        </audio>
         {% endif %}<br>
 
-        D){{q.d_text}}<br>
+        D){{q.d_text}}
         {% if q.d_image != '' %}
-            <img src="/media/{{q.d_image}}" width=5%><br>
+            <img src="/media/{{q.d_image}}" width=5%>
         {% endif %}
         {% if q.d_video != None %}
         <iframe width="300" height="200" src="{{q.d_video}}" frameborder="0" allowfullscreen></iframe>
-        </iframe><br>
+        </iframe>
         {% endif %}
         {% if q.d_audio != '' %}
         <audio controls>
             <source src="/media/{{d_audio}}" type="audio/mpeg">
             Your browser does not support the audio element.
-        </audio><br>
+        </audio>
         {% endif %}<br>
         Answer -> 
         <input type="radio" name="answer2" value="1">A&nbsp;&nbsp;
@@ -101,64 +104,64 @@ passing: {{quiz.pass_marks}}, max: {{quiz.max_marks}}, time: {{quiz.time}} minut
     {% endif %}
     
     {% if q.q_type == 3 %}
-    A){{q.a_text}}<br>
+    A){{q.a_text}}
     {% if q.a_image != '' %}
-        <img src="/media/{{q.a_image}}" width=5%><br>
+        <img src="/media/{{q.a_image}}" width=5%>
     {% endif %}
     {% if q.a_video != None %}
     <iframe width="300" height="200" src="{{q.a_video}}" frameborder="0" allowfullscreen></iframe>
-    </iframe><br>
+    </iframe>
     {% endif %}
     {% if q.a_audio != '' %}
     <audio controls>
         <source src="/media/{{a_audio}}" type="audio/mpeg">
         Your browser does not support the audio element.
-    </audio><br>
+    </audio>
     {% endif %}<br>
 
-    B){{q.b_text}}<br>
+    B){{q.b_text}}
     {% if q.b_image != '' %}
-        <img src="/media/{{q.b_image}}" width=5%><br>
+        <img src="/media/{{q.b_image}}" width=5%>
     {% endif %}
     {% if q.b_video != None %}
     <iframe width="300" height="200" src="{{q.b_video}}" frameborder="0" allowfullscreen></iframe>
-    </iframe><br>
+    </iframe>
     {% endif %}
     {% if q.b_audio != '' %}
     <audio controls>
         <source src="/media/{{b_audio}}" type="audio/mpeg">
         Your browser does not support the audio element.
-    </audio><br>
+    </audio>
     {% endif %}<br>
 
-    C){{q.c_text}}<br>
+    C){{q.c_text}}
     {% if q.c_image != '' %}
-        <img src="/media/{{q.c_image}}" width=5%><br>
+        <img src="/media/{{q.c_image}}" width=5%>
     {% endif %}
     {% if q.c_video != None %}
     <iframe width="300" height="200" src="{{q.c_video}}" frameborder="0" allowfullscreen></iframe>
-    </iframe><br>
+    </iframe>
     {% endif %}
     {% if q.c_audio != '' %}
     <audio controls>
         <source src="/media/{{c_audio}}" type="audio/mpeg">
         Your browser does not support the audio element.
-    </audio><br>
+    </audio>
     {% endif %}<br>
 
-    D){{q.d_text}}<br>
+    D){{q.d_text}}
     {% if q.d_image != '' %}
-        <img src="/media/{{q.d_image}}" width=5%><br>
+        <img src="/media/{{q.d_image}}" width=5%>
     {% endif %}
     {% if q.d_video != None %}
     <iframe width="300" height="200" src="{{q.d_video}}" frameborder="0" allowfullscreen></iframe>
-    </iframe><br>
+    </iframe>
     {% endif %}
     {% if q.d_audio != '' %}
     <audio controls>
         <source src="/media/{{d_audio}}" type="audio/mpeg">
         Your browser does not support the audio element.
-    </audio><br>
+    </audio>
     {% endif %}<br>
     Answer -> 
     <input type="checkbox" name="answer3" value="1">A&nbsp;&nbsp;
@@ -167,71 +170,71 @@ passing: {{quiz.pass_marks}}, max: {{quiz.max_marks}}, time: {{quiz.time}} minut
     <input type="checkbox" name="answer3" value="4">D
     {% endif %}
     
-    {% if q.q_type == 4 %}
-    A){{q.a_text}}<br>
+    {% if q.q_type == 4 %}<br>
+    A){{q.a_text}}
     {% if q.a_image != '' %}
-        <img src="/media/{{q.a_image}}" width=5%><br>
+        <img src="/media/{{q.a_image}}" width=5%>
     {% endif %}
     {% if q.a_video != None %}
     <iframe width="300" height="200" src="{{q.a_video}}" frameborder="0" allowfullscreen></iframe>
-    </iframe><br>
+    </iframe>
     {% endif %}
     {% if q.a_audio != '' %}
     <audio controls>
         <source src="/media/{{a_audio}}" type="audio/mpeg">
         Your browser does not support the audio element.
-    </audio><br>
+    </audio>
     {% endif %}<br>
 
-    B){{q.b_text}}<br>
+    B){{q.b_text}}
     {% if q.b_image != '' %}
-        <img src="/media/{{q.b_image}}" width=5%><br>
+        <img src="/media/{{q.b_image}}" width=5%>
     {% endif %}
     {% if q.b_video != None %}
     <iframe width="300" height="200" src="{{q.b_video}}" frameborder="0" allowfullscreen></iframe>
-    </iframe><br>
+    </iframe>
     {% endif %}
     {% if q.b_audio != '' %}
     <audio controls>
         <source src="/media/{{b_audio}}" type="audio/mpeg">
         Your browser does not support the audio element.
-    </audio><br>
+    </audio>
     {% endif %}<br>
 
-    C){{q.c_text}}<br>
+    C){{q.c_text}}
     {% if q.c_image != '' %}
-        <img src="/media/{{q.c_image}}" width=5%><br>
+        <img src="/media/{{q.c_image}}" width=5%>
     {% endif %}
     {% if q.c_video != None %}
     <iframe width="300" height="200" src="{{q.c_video}}" frameborder="0" allowfullscreen></iframe>
-    </iframe><br>
+    </iframe>
     {% endif %}
     {% if q.c_audio != '' %}
     <audio controls>
         <source src="/media/{{c_audio}}" type="audio/mpeg">
         Your browser does not support the audio element.
-    </audio><br>
+    </audio>
     {% endif %}<br>
 
-    D){{q.d_text}}<br>
+    D){{q.d_text}}
     {% if q.d_image != '' %}
-        <img src="/media/{{q.d_image}}" width=5%><br>
+        <img src="/media/{{q.d_image}}" width=5%>
     {% endif %}
     {% if q.d_video != None %}
     <iframe width="300" height="200" src="{{q.d_video}}" frameborder="0" allowfullscreen></iframe>
-    </iframe><br>
+    </iframe>
     {% endif %}
     {% if q.d_audio != '' %}
     <audio controls>
         <source src="/media/{{d_audio}}" type="audio/mpeg">
         Your browser does not support the audio element.
-    </audio><br>
+    </audio>
     {% endif %}<br>
     Answer -> 
-    <input type="text" name="answerA">->
-    <input type="text" name="answerB">->
-    <input type="text" name="answerC">->
-    <input type="text" name="answerD">
+    <input type="text" name="answerA" placeholder="'a' or 'b' or 'c' or 'd'">->
+    <input type="text" name="answerB" placeholder="'a' or 'b' or 'c' or 'd'">->
+    <input type="text" name="answerC" placeholder="'a' or 'b' or 'c' or 'd'">->
+    <input type="text" name="answerD" placeholder="'a' or 'b' or 'c' or 'd'">
     {% endif %}
     
     {% if q.q_type == 5 %}
@@ -247,7 +250,9 @@ passing: {{quiz.pass_marks}}, max: {{quiz.max_marks}}, time: {{quiz.time}} minut
     <input type="submit" value="Finish Quiz">
 {% else %}
     <input type="submit" value="Next Question">
-{% endif %}
+{% endif %}</div>
+</div>
+</div>
 </form>
 </div>
 {% endblock %}
