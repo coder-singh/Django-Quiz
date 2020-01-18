@@ -1,0 +1,410 @@
+{% extends 'main/base.html' %}
+{% load main_filters %}
+{% load staticfiles %}
+
+{% block title %}
+View Solution
+{% endblock %}
+
+{% block content %}
+<h2>{{quiz.name}} by {{quiz.tutor.first_name}}</h2>
+<div class="row">
+    <div class="col-md-4">Passing Marks: {{quiz.pass_marks}}</div>
+    <div class="col-md-4">Maximum Marks: {{quiz.max_marks}}</div>
+    <div class="col-md-4">Time: {{quiz.time}} minutes</div>
+</div>
+
+{% for q in questions %}
+<div class="mt-3">
+    <div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Question: {{q.q_text}}</h5>
+        <div class="card-text">
+    
+    {% if q.q_image != '' %}
+        <img src="/media/{{q.q_image}}" width="100px;">
+    {% endif %}
+    {% if q.q_video != None %}
+    <iframe width="300" height="200" src="{{q.q_video}}" frameborder="0" allowfullscreen></iframe>
+    </iframe>
+    {% endif %}
+    {% if q.q_audio != '' %}
+    <audio controls>
+        <source src="/media/{{q.q_audio}}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio><br>
+    {% endif %}
+    
+    {% if q.q_type == 1 %}
+    <input type="radio" name="answer1" value="1" {% if q.answer == '1' %}checked="checked"{% endif %} disabled>True&nbsp;&nbsp;
+    <input type="radio" name="answer1" value="0" {% if q.answer == '0' %}checked="checked"{% endif %} disabled>False
+    <br>
+    Your answer: {% if answers|get_item:q.id == None %}Not Attempted{% elif answers|get_item:q.id == 1%}True{% else %}False{% endif %}
+    {% endif %}
+    
+    {% if q.q_type == 2 %}
+        A){{q.a_text}}
+        {% if q.a_image != '' %}
+            <img src="/media/{{q.a_image}}" width=5%>
+        {% endif %}
+        {% if q.a_video != None %}
+        <iframe width="300" height="200" src="{{q.a_video}}" frameborder="0" allowfullscreen></iframe>
+        </iframe>
+        {% endif %}
+        {% if q.a_audio != '' %}
+        <audio controls>
+            <source src="/media/{{q.a_audio}}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        {% endif %}<br>
+
+        B){{q.b_text}}
+        {% if q.b_image != '' %}
+            <img src="/media/{{q.b_image}}" width=5%>
+        {% endif %}
+        {% if q.b_video != None %}
+        <iframe width="300" height="200" src="{{q.b_video}}" frameborder="0" allowfullscreen></iframe>
+        </iframe>
+        {% endif %}
+        {% if q.b_audio != '' %}
+        <audio controls>
+            <source src="/media/{{q.b_audio}}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        {% endif %}<br>
+
+        C){{q.c_text}}
+        {% if q.c_image != '' %}
+            <img src="/media/{{q.c_image}}" width=5%>
+        {% endif %}
+        {% if q.c_video != None %}
+        <iframe width="300" height="200" src="{{q.c_video}}" frameborder="0" allowfullscreen></iframe>
+        </iframe>
+        {% endif %}
+        {% if q.c_audio != '' %}
+        <audio controls>
+            <source src="/media/{{q.c_audio}}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        {% endif %}<br>
+
+        D){{q.d_text}}
+        {% if q.d_image != '' %}
+            <img src="/media/{{q.d_image}}" width=5%>
+        {% endif %}
+        {% if q.d_video != None %}
+        <iframe width="300" height="200" src="{{q.d_video}}" frameborder="0" allowfullscreen></iframe>
+        </iframe>
+        {% endif %}
+        {% if q.d_audio != '' %}
+        <audio controls>
+            <source src="/media/{{q.d_audio}}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        {% endif %}<br>
+        Answer -> 
+        <input type="radio" name="answer2" value="1" {% if q.answer == '1' %}checked="checked"{% endif %} disabled>A&nbsp;&nbsp;
+        <input type="radio" name="answer2" value="2" {% if q.answer == '2' %}checked="checked"{% endif %} disabled>B&nbsp;&nbsp;
+        <input type="radio" name="answer2" value="3" {% if q.answer == '3' %}checked="checked"{% endif %} disabled>C&nbsp;&nbsp;
+        <input type="radio" name="answer2" value="4" {% if q.answer == '4' %}checked="checked"{% endif %} disabled>D
+        <br>
+        Your answer: {% if answers|get_item:q.id == None %}Not Attempted{% elif answers|get_item:q.id == 1 %}A{% elif answers|get_item:q.id == 2 %}B{% elif answers|get_item:q.id == 3 %}C{% else %}D{% endif %}
+    {% endif %}
+    
+    {% if q.q_type == 3 %}
+    A){{q.a_text}}
+    {% if q.a_image != '' %}
+        <img src="/media/{{q.a_image}}" width=5%>
+    {% endif %}
+    {% if q.a_video != None %}
+    <iframe width="300" height="200" src="{{q.a_video}}" frameborder="0" allowfullscreen></iframe>
+    </iframe>
+    {% endif %}
+    {% if q.a_audio != '' %}
+    <audio controls>
+        <source src="/media/{{q.a_audio}}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    {% endif %}<br>
+
+    B){{q.b_text}}
+    {% if q.b_image != '' %}
+        <img src="/media/{{q.b_image}}" width=5%>
+    {% endif %}
+    {% if q.b_video != None %}
+    <iframe width="300" height="200" src="{{q.b_video}}" frameborder="0" allowfullscreen></iframe>
+    </iframe>
+    {% endif %}
+    {% if q.b_audio != '' %}
+    <audio controls>
+        <source src="/media/{{q.b_audio}}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    {% endif %}<br>
+
+    C){{q.c_text}}
+    {% if q.c_image != '' %}
+        <img src="/media/{{q.c_image}}" width=5%>
+    {% endif %}
+    {% if q.c_video != None %}
+    <iframe width="300" height="200" src="{{q.c_video}}" frameborder="0" allowfullscreen></iframe>
+    </iframe>
+    {% endif %}
+    {% if q.c_audio != '' %}
+    <audio controls>
+        <source src="/media/{{q.c_audio}}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    {% endif %}<br>
+
+    D){{q.d_text}}
+    {% if q.d_image != '' %}
+        <img src="/media/{{q.d_image}}" width=5%>
+    {% endif %}
+    {% if q.d_video != None %}
+    <iframe width="300" height="200" src="{{q.d_video}}" frameborder="0" allowfullscreen></iframe>
+    </iframe>
+    {% endif %}
+    {% if q.d_audio != '' %}
+    <audio controls>
+        <source src="/media/{{q.d_audio}}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    {% endif %}<br>
+    Answer -> 
+    <input type="checkbox" name="answer3" value="1" {% if '1' in q.answer %}checked="checked"{% endif %} disabled>A&nbsp;&nbsp;
+    <input type="checkbox" name="answer3" value="2" {% if '2' in q.answer %}checked="checked"{% endif %} disabled>B&nbsp;&nbsp;
+    <input type="checkbox" name="answer3" value="3" {% if '3' in q.answer %}checked="checked"{% endif %} disabled>C&nbsp;&nbsp;
+    <input type="checkbox" name="answer3" value="4" {% if '4' in q.answer %}checked="checked"{% endif %} disabled>D
+    <br>
+    Your Answer: {% if answers|get_item:q.id == None %}Not Attempted{% else %}{{ answers|get_item:q.id}}{% endif %}
+    {% endif %}
+    
+    {% if q.q_type == 4 %}
+    A){{q.a_text}}
+    {% if q.a_image != '' %}
+        <img src="/media/{{q.a_image}}" width=5%>
+    {% endif %}
+    {% if q.a_video != None %}
+    <iframe width="300" height="200" src="{{q.a_video}}" frameborder="0" allowfullscreen></iframe>
+    </iframe>
+    {% endif %}
+    {% if q.a_audio != '' %}
+    <audio controls>
+        <source src="/media/{{q.a_audio}}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    {% endif %}<br>
+
+    B){{q.b_text}}
+    {% if q.b_image != '' %}
+        <img src="/media/{{q.b_image}}" width=5%>
+    {% endif %}
+    {% if q.b_video != None %}
+    <iframe width="300" height="200" src="{{q.b_video}}" frameborder="0" allowfullscreen></iframe>
+    </iframe>
+    {% endif %}
+    {% if q.b_audio != '' %}
+    <audio controls>
+        <source src="/media/{{q.b_audio}}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    {% endif %}<br>
+
+    C){{q.c_text}}
+    {% if q.c_image != '' %}
+        <img src="/media/{{q.c_image}}" width=5%>
+    {% endif %}
+    {% if q.c_video != None %}
+    <iframe width="300" height="200" src="{{q.c_video}}" frameborder="0" allowfullscreen></iframe>
+    </iframe>
+    {% endif %}
+    {% if q.c_audio != '' %}
+    <audio controls>
+        <source src="/media/{{q.c_audio}}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    {% endif %}<br>
+
+    D){{q.d_text}}
+    {% if q.d_image != '' %}
+        <img src="/media/{{q.d_image}}" width=5%>
+    {% endif %}
+    {% if q.d_video != None %}
+    <iframe width="300" height="200" src="{{q.d_video}}" frameborder="0" allowfullscreen></iframe>
+    </iframe>
+    {% endif %}
+    {% if q.d_audio != '' %}
+    <audio controls>
+        <source src="/media/{{q.d_audio}}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    {% endif %}<br>
+    Answer -> 
+    <input type="text" name="answerA" value={% with q.answer|split as answers %}{{answers.0}}{% endwith %} disabled>->
+    <input type="text" name="answerB" value={% with q.answer|split as answers %}{{answers.1}}{% endwith %} disabled>->
+    <input type="text" name="answerC" value={% with q.answer|split as answers %}{{answers.2}}{% endwith %} disabled>->
+    <input type="text" name="answerD" value={% with q.answer|split as answers %}{{answers.3}}{% endwith %} disabled>
+    <br>
+    Your Answer : {% if answers|get_item:q.id == None %}Not Attempted
+    {% else %}{{ answers|get_item:q.id }}{% endif %}
+    {% endif %}
+    
+    {% if q.q_type == 5 %}
+    <table class="table">
+        <tr>
+            <td>A) {{q.a_text}}
+                {% if q.a_image != '' %}
+                    <img src="/media/{{q.a_image}}" width=5%>
+                {% endif %}
+                {% if q.a_video != None %}
+                <iframe width="300" height="200" src="{{q.a_video}}" frameborder="0" allowfullscreen></iframe>
+                </iframe>
+                {% endif %}
+                {% if q.a_audio != '' %}
+                <audio controls>
+                    <source src="/media/{{q.a_audio}}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                {% endif %}
+            </td>
+            <td>
+                <div class="row">
+                    <div class="col-md-2"><input type="text" name="answerma" value={% with q.answer|split as answers %}{{answers.0}}{% endwith %} disabled></div>
+                <div class="col-md-10">{{q.a2_text}}
+                    {% if q.a2_image != '' %}
+                        <img src="/media/{{q.a2_image}}" width=5%>
+                    {% endif %}
+                    {% if q.a2_video != None %}
+                    <iframe width="300" height="200" src="{{q.a2_video}}" frameborder="0" allowfullscreen></iframe>
+                    </iframe>
+                    {% endif %}
+                    {% if q.a2_audio != '' %}
+                    <audio controls>
+                        <source src="/media/{{q.a2_audio}}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    {% endif %}
+                </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>B) {{q.b_text}}
+                {% if q.b_image != '' %}
+                    <img src="/media/{{q.b_image}}" width=5%>
+                {% endif %}
+                {% if q.b_video != None %}
+                <iframe width="300" height="200" src="{{q.b_video}}" frameborder="0" allowfullscreen></iframe>
+                </iframe>
+                {% endif %}
+                {% if q.b_audio != '' %}
+                <audio controls>
+                    <source src="/media/{{q.b_audio}}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                {% endif %}
+            </td>
+            <td>
+                <div class="row">
+                    <div class="col-md-2"><input type="text" name="answermb" value={% with q.answer|split as answers %}{{answers.1}}{% endwith %} disabled></div>
+                <div class="col-md-10">{{q.b2_text}}
+                    {% if q.b2_image != '' %}
+                        <img src="/media/{{q.b_image}}" width=5%>
+                    {% endif %}
+                    {% if q.b2_video != None %}
+                    <iframe width="300" height="200" src="{{q.b2_video}}" frameborder="0" allowfullscreen></iframe>
+                    </iframe>
+                    {% endif %}
+                    {% if q.b2_audio != '' %}
+                    <audio controls>
+                        <source src="/media/{{q.b2_audio}}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    {% endif %}
+                </div></div>
+            </td>
+        </tr>
+        <tr>
+            <td>C) {{q.c_text}}
+                {% if q.c_image != '' %}
+                    <img src="/media/{{q.c_image}}" width=5%>
+                {% endif %}
+                {% if q.c_video != None %}
+                <iframe width="300" height="200" src="{{q.c_video}}" frameborder="0" allowfullscreen></iframe>
+                </iframe>
+                {% endif %}
+                {% if q.c_audio != '' %}
+                <audio controls>
+                    <source src="/media/{{q.c_audio}}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                {% endif %}
+            </td>
+            <td>
+                <div class="row">
+                    <div class="col-md-2"><input type="text" name="answermc" value={% with q.answer|split as answers %}{{answers.2}}{% endwith %} disabled></div>
+                <div class="col-md-10">{{q.c2_text}}
+                    {% if q.c2_image != '' %}
+                        <img src="/media/{{q.c2_image}}" width=5%>
+                    {% endif %}
+                    {% if q.c2_video != None %}
+                    <iframe width="300" height="200" src="{{q.c2_video}}" frameborder="0" allowfullscreen></iframe>
+                    </iframe>
+                    {% endif %}
+                    {% if q.c2_audio != '' %}
+                    <audio controls>
+                        <source src="/media/{{q.c2_audio}}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    {% endif %}
+                </div></div>
+            </td>
+        </tr>
+        <tr>
+            <td>D) {{q.d_text}}
+                {% if q.d_image != '' %}
+                    <img src="/media/{{q.d_image}}" width=5%>
+                {% endif %}
+                {% if q.d_video != None %}
+                <iframe width="300" height="200" src="{{q.d_video}}" frameborder="0" allowfullscreen></iframe>
+                </iframe>
+                {% endif %}
+                {% if q.d_audio != '' %}
+                <audio controls>
+                    <source src="/media/{{q.d_audio}}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                {% endif %}
+            </td>
+            <td>
+                <div class="row">
+                    <div class="col-md-2"><input type="text" name="answermd" value={% with q.answer|split as answers %}{{answers.3}}{% endwith %} disabled></div>
+                <div class="col-md-10">{{q.d2_text}}
+                    {% if q.d2_image != '' %}
+                        <img src="/media/{{q.d2_image}}" width=5%>
+                    {% endif %}
+                    {% if q.d2_video != None %}
+                    <iframe width="300" height="200" src="{{q.d2_video}}" frameborder="0" allowfullscreen></iframe>
+                    </iframe>
+                    {% endif %}
+                    {% if q.d2_audio != '' %}
+                    <audio controls>
+                        <source src="/media/{{q.d2_audio}}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    {% endif %}
+                </div></div>
+            </td>
+        </tr>
+    </table>
+    <br>Your Answer: {% if answers|get_item:q.id == None %}Not Attempted{% else %}{{answers|get_item:q.id}}{% endif %}
+    {% endif %}
+    <br>
+</div>
+            
+</div>
+</div>
+</div>
+{% endfor %}
+{% endblock %}

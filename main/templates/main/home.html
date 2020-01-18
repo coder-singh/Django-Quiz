@@ -31,7 +31,11 @@ Home
                 <a href="/main/viewQuiz/?id={{q.id}}">View Quiz&nbsp;&nbsp;</a>
                 <a href="/main/viewResults/?id={{q.id}}">View Results&nbsp;&nbsp;</a>
                 {% elif user.role == 3 %}
-                <a href="/main/takeQuiz/?id={{q.id}}">Take Quiz</a>
+                    {% if q.id in attempted_quizzes %}
+                    <a href="/main/viewSolution/?qid={{q.id}}&sid={{request.user.id}}">View Solution</a>
+                    {% else %}
+                    <a href="/main/takeQuiz/?id={{q.id}}">Take Quiz</a>
+                    {% endif %}
                 {% endif %}
                 {% if user.role == 1 or q.tutor_id == user.id %}
                 <a href="/main/editQuiz/?id={{q.id}}">Edit Quiz</a>

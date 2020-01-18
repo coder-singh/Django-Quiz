@@ -29,4 +29,5 @@ urlpatterns = [
     path('viewResult/', main_views.viewResult, name="viewResult"),
     path('editQuestion/', main_views.editQuestion, name="editQuestion"),
     path('viewResults/', main_views.viewResults, name="viewResult"),
+    path('viewSolution/', main_views.viewSolution, name="viewSolution"),
 ]

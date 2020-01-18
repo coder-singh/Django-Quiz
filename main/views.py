@@ -7,12 +7,23 @@ from .models import *
 
 # Create your views here.
 def home(request):
-    quizzes = Quiz.objects.select_related('tutor').all()
-    context = {
-        'quizzes': quizzes,
-    }
-    template = 'main/home.html'
-    return render(request, template, context)
+    if request.user.role == 3:
+        # student
+        quizzes = Quiz.objects.select_related('tutor').all()
+        attempted_quizzes = list(Attempt.objects.filter(student = request.user).values_list('question__quiz', flat=True).distinct())
+        context = {
+            'quizzes': quizzes,
+            'attempted_quizzes': attempted_quizzes,
+        }
+        template = 'main/home.html'
+        return render(request, template, context)
+    else:
+        quizzes = Quiz.objects.select_related('tutor').all()
+        context = {
+            'quizzes': quizzes,
+        }
+        template = 'main/home.html'
+        return render(request, template, context)
 
 def editQuiz(request):
     if request.method=='GET':
@@ -459,6 +470,27 @@ def viewResult(request):
         'quiz': quiz
     }
     template = 'main/viewResult.html'
+    return render(request, template, context)
+
+def viewSolution(request):
+    quiz_id = request.GET['qid']
+    quiz = Quiz.objects.get(pk=quiz_id)
+    sid = request.GET['sid']
+    answers = {}
+    questions = Question.objects.filter(quiz_id = quiz_id)
+    for q in questions:
+        a = q.attempt_set.filter(student=sid)
+        if len(a) != 0:
+            answers[q.id] = a[0].answer
+
+    print(answers)
+
+    context = {
+        'questions': questions,
+        'quiz': quiz,
+        'answers': answers,
+    }
+    template = 'main/viewSolution.html'
     return render(request, template, context)
 
 def editQuestion(request):
