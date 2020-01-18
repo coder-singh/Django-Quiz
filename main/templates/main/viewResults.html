@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+{% load main_filters %}
+{% load staticfiles %}
+
+{% block title %}
+Results
+{% endblock %}
+
+{% block content %}
+<ul class="list-group">
+{% for d in data %}
+<li class="list-group-item">
+    {{d}} : {{data|get_item:d}}
+</li>
+{% endfor %}
+</ul>
+{% endblock %}

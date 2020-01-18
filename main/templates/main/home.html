@@ -25,10 +25,11 @@ Home
 {% for q in quizzes %}
     <li class="list-group-item">
         <div class="row mt-2">
-            <div class="col-md-9">{{q.name}} by {{q.tutor.first_name}}</div>
-            <div class="col-md-3">
+            <div class="col-md-8">{{q.name}} by {{q.tutor.first_name}}</div>
+            <div class="col-md-4">
                 {% if user.role == 1 or user.role == 2 %}
                 <a href="/main/viewQuiz/?id={{q.id}}">View Quiz&nbsp;&nbsp;</a>
+                <a href="/main/viewResults/?id={{q.id}}">View Results&nbsp;&nbsp;</a>
                 {% elif user.role == 3 %}
                 <a href="/main/takeQuiz/?id={{q.id}}">Take Quiz</a>
                 {% endif %}

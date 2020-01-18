@@ -30,7 +30,7 @@ Attempt Quiz
     if (distance < 0) {
         clearInterval(x);
         document.getElementById("minutes").innerHTML = "EXPIRED";
-        window.location.href = "/main/viewResult/?s_id=2&q_id=3";
+        window.location.href = "/main/viewResult/?s_id={{request.user.id}}&q_id={{quiz.id}}";
     }
     }, 1000);
     function storeTimer(){

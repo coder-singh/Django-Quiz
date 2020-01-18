@@ -355,6 +355,26 @@ def viewQuiz(request):
         template = 'main/viewQuiz.html'
         return render(request, template, context)
 
+def viewResults(request):
+    quiz_id = int(request.GET['id'])
+    questions = Question.objects.filter(quiz_id = quiz_id)
+    question_ids = questions.values_list('id', flat=True)
+    print(question_ids)
+    attempts = Attempt.objects.select_related('question', 'student').filter(question_id__in=question_ids)
+    data = {}
+    for attempt in attempts:
+        if attempt.student.first_name not in data.keys():
+            data[attempt.student.first_name]=0
+        
+        if attempt.question.answer == attempt.answer:
+            data[attempt.student.first_name] += attempt.question.marks
+    context = {
+        'data': data,
+    }
+    print(data)
+    template = "main/viewResults.html"
+    return render(request, template, context)
+
 def takeQuiz(request):
     if request.method=='GET':
         quiz_id = request.GET['id']

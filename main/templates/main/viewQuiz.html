@@ -395,7 +395,7 @@ View Quiz
 </div>
             
 </div>
-{% if user.role == 1 %}
+{% if user.role == 1 or q.quiz.tutor.id == user.id %}
 <div class="card-footer">
 <a href="{% url 'editQuestion' %}?id={{q.id}}">Edit Question</a>
 </div>
