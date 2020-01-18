@@ -6,9 +6,44 @@
 Attempt Quiz
 {% endblock %}
 
+{% block script %}
+<script>
+    {% if endTime == -10 %}
+    var newDateObj = moment(new Date()).add({{minutes}}, 'm').toDate();
+    var newTimeObj = newDateObj.getTime();
+    {% else %}
+    var newTimeObj = "{{endTime}}";
+    {% endif %}
+    console.log(newTimeObj);
+
+    var x = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = newTimeObj - now;
+    
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("minutes").innerHTML = hours + "h "
+    + minutes + "m " + seconds + "s ";
+
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("minutes").innerHTML = "EXPIRED";
+        window.location.href = "/main/viewResult/?s_id=2&q_id=3";
+    }
+    }, 1000);
+    function storeTimer(){
+        $("#endTime").val(newTimeObj);
+        console.log('time stored');
+    }
+</script>
+{% endblock %}
+
 {% block content %}
 <h2>{{quiz.name}} by {{quiz.tutor.first_name}}</h2>
-passing: {{quiz.pass_marks}}, max: {{quiz.max_marks}}, time: {{quiz.time}} minutes
+passing: {{quiz.pass_marks}}, max: {{quiz.max_marks}}, time: {{quiz.time}} minutes,<br>
+remaining time : <span id="minutes"></span>
 
 
 <div style="margin-top: 50px;">
@@ -391,11 +426,12 @@ passing: {{quiz.pass_marks}}, max: {{quiz.max_marks}}, time: {{quiz.time}} minut
     <input type="hidden" name="quiz_id" value="{{quiz.id}}">
     <input type="hidden" name="question_no" value="{{question_no}}">
     <input type="hidden" name="question_type" value="{{q.q_type}}">
+    <input type="hidden" name="endTime" id="endTime" value="">
 <br>
 {% if last_question is True %}
-    <input type="submit" value="Finish Quiz">
+    <input type="submit" value="Finish Quiz" onclick="storeTimer()">
 {% else %}
-    <input type="submit" value="Next Question">
+    <input type="submit" value="Next Question" onclick="storeTimer()">
 {% endif %}</div>
 </div>
 </div>

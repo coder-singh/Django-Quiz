@@ -28,9 +28,12 @@ Home
             <div class="col-md-9">{{q.name}} by {{q.tutor.first_name}}</div>
             <div class="col-md-3">
                 {% if user.role == 1 or user.role == 2 %}
-                <a href="/main/viewQuiz/?id={{q.id}}">View Quiz</a>
+                <a href="/main/viewQuiz/?id={{q.id}}">View Quiz&nbsp;&nbsp;</a>
                 {% elif user.role == 3 %}
                 <a href="/main/takeQuiz/?id={{q.id}}">Take Quiz</a>
+                {% endif %}
+                {% if user.role == 1 or q.tutor_id == user.id %}
+                <a href="/main/editQuiz/?id={{q.id}}">Edit Quiz</a>
                 {% endif %}
             </div>
         </div>

@@ -7,11 +7,35 @@ from .models import *
 
 # Create your views here.
 def home(request):
-    quizzes = Quiz.objects.all()
+    quizzes = Quiz.objects.select_related('tutor').all()
     context = {
         'quizzes': quizzes,
     }
     template = 'main/home.html'
+    return render(request, template, context)
+
+def editQuiz(request):
+    if request.method=='GET':
+        quiz_id = int(request.GET['id'])
+        quiz = Quiz.objects.get(pk=quiz_id)
+        quizForm = createQuizForm(instance=quiz)
+    else:
+        quiz_id = int(request.POST.get('id'))
+        quiz = Quiz.objects.get(pk=quiz_id)
+        quizForm = createQuizForm(request.POST, instance=quiz)
+        if quizForm.is_valid():
+            print('form is valid')
+            quiz = quizForm.save(commit=False)
+            quiz.tutor = request.user
+            quiz.save()
+            return redirect('/main/home')
+        else:
+            print('form is invalid')
+    context = {
+        'form': quizForm,
+        'quiz_id': quiz_id
+    }
+    template = 'main/editQuiz.html'
     return render(request, template, context)
 
 def user_logout(request):
@@ -345,6 +369,8 @@ def takeQuiz(request):
             'quiz': quiz,
             'q': question,
             'question_no': 1,
+            'minutes': quiz.time,
+            'endTime': -10,
         }
         template = 'main/takeQuiz.html'
         return render(request, template, context)
@@ -391,6 +417,7 @@ def takeQuiz(request):
             'q': question,
             'quiz': quiz,
             'question_no': question_no + 1,
+            'endTime': request.POST.get('endTime'),
         }
         template = 'main/takeQuiz.html'
         return render(request, template, context)

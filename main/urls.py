@@ -23,6 +23,7 @@ urlpatterns = [
     path('register/', main_views.register, name='register'),
     path('createQuiz/', main_views.createQuiz, name='createQuiz'),
     path('viewQuiz/', main_views.viewQuiz, name='viewQuiz'),
+    path('editQuiz/', main_views.editQuiz, name='editQuiz'),
     path('takeQuiz/', main_views.takeQuiz, name='takeQuiz'),
     path('addQuestion/', main_views.addQuestion, name='addQuestion'),
     path('viewResult/', main_views.viewResult, name="viewResult"),

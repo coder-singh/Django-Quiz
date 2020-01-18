@@ -1,0 +1,31 @@
+
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Edit Quiz
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+<div class="row mb-4">
+    <div class="col-md-3">Welcome {{user.first_name}}</div>
+    <div class="col-md-6"></div>
+    <div class="col-md-3"><a href='/main/logout'>Logout</a>&nbsp;&nbsp;</div>
+</div>
+{% else %}
+<div class="row mb-4">
+    <div class="col-md-9"></div>
+    <div class="col-md-3"><a href='/main/register'>Register</a>&nbsp;&nbsp;<a href='/main/login'>Login</a></div>
+</div>
+{% endif %}
+{{form.errors}}
+<form method='POST'>
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="hidden" name="id" value={{quiz_id}}>
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
