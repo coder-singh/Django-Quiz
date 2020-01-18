@@ -86,17 +86,21 @@ def addQuestion(request):
         if 'id' not in request.GET:
             return redirect('/main/home')
         context = {
-            'id': request.GET['id']
+            'id': request.GET['id'],
+            'question_no': 1,
         }
         template = 'main/addQuestion.html'
         return render(request, template, context)
     else:
         question = Question()
-        quiz_id = request.POST.get('quiz_id')
-        question.quiz=Quiz.objects.get(pk=quiz_id)
+        quiz_id = int(request.POST.get('quiz_id'))
+        quiz = Quiz.objects.get(pk=quiz_id)
+        question.quiz=quiz
         question.q_text = request.POST.get('q_text')
         question.q_type = request.POST.get('q_type')
         question.marks = request.POST.get('marks')
+        question_no = int(request.POST.get('question_no'))
+        question_count = quiz.no_questions
          
         if 'q_image' in request.FILES:
             q_image = request.FILES['q_image']
@@ -302,9 +306,17 @@ def addQuestion(request):
             question.answer = resultString
             
         question.save()
-
-
-        return redirect('/main/home')
+        print('question_count: '+str(question_count))
+        print('question_no: '+str(question_no))
+        if question_count == question_no:
+            return redirect('/main/home')
+        
+        context = {
+            'id': quiz.id,
+            'question_no': question_no+1,
+        }
+        template = 'main/addQuestion.html'
+        return render(request, template, context)
 
 @login_required
 def viewQuiz(request):
