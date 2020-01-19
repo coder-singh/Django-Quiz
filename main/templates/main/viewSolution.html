@@ -39,7 +39,7 @@ View Solution
     <input type="radio" name="answer1" value="1" {% if q.answer == '1' %}checked="checked"{% endif %} disabled>True&nbsp;&nbsp;
     <input type="radio" name="answer1" value="0" {% if q.answer == '0' %}checked="checked"{% endif %} disabled>False
     <br>
-    Your answer: {% if answers|get_item:q.id == None %}Not Attempted{% elif answers|get_item:q.id == 1%}True{% else %}False{% endif %}
+    {% if user.role == 3 %}Your Answer{% else %}Students answer{% endif %}: {% if answers|get_item:q.id == None %}Not Attempted{% elif answers|get_item:q.id == 1%}True{% else %}False{% endif %}
     {% endif %}
     
     {% if q.q_type == 2 %}
@@ -108,7 +108,7 @@ View Solution
         <input type="radio" name="answer2" value="3" {% if q.answer == '3' %}checked="checked"{% endif %} disabled>C&nbsp;&nbsp;
         <input type="radio" name="answer2" value="4" {% if q.answer == '4' %}checked="checked"{% endif %} disabled>D
         <br>
-        Your answer: {% if answers|get_item:q.id == None %}Not Attempted{% elif answers|get_item:q.id == 1 %}A{% elif answers|get_item:q.id == 2 %}B{% elif answers|get_item:q.id == 3 %}C{% else %}D{% endif %}
+        {% if user.role == 3 %}Your Answer{% else %}Students answer{% endif %}: {% if answers|get_item:q.id == None %}Not Attempted{% elif answers|get_item:q.id == 1 %}A{% elif answers|get_item:q.id == 2 %}B{% elif answers|get_item:q.id == 3 %}C{% else %}D{% endif %}
     {% endif %}
     
     {% if q.q_type == 3 %}
@@ -177,7 +177,7 @@ View Solution
     <input type="checkbox" name="answer3" value="3" {% if '3' in q.answer %}checked="checked"{% endif %} disabled>C&nbsp;&nbsp;
     <input type="checkbox" name="answer3" value="4" {% if '4' in q.answer %}checked="checked"{% endif %} disabled>D
     <br>
-    Your Answer: {% if answers|get_item:q.id == None %}Not Attempted{% else %}{{ answers|get_item:q.id}}{% endif %}
+    {% if user.role == 3 %}Your Answer{% else %}Students answer{% endif %}: {% if answers|get_item:q.id == None %}Not Attempted{% else %}{{ answers|get_item:q.id}}{% endif %}
     {% endif %}
     
     {% if q.q_type == 4 %}
@@ -246,7 +246,7 @@ View Solution
     <input type="text" name="answerC" value={% with q.answer|split as answers %}{{answers.2}}{% endwith %} disabled>->
     <input type="text" name="answerD" value={% with q.answer|split as answers %}{{answers.3}}{% endwith %} disabled>
     <br>
-    Your Answer : {% if answers|get_item:q.id == None %}Not Attempted
+    {% if user.role == 3 %}Your Answer{% else %}Students answer{% endif %} : {% if answers|get_item:q.id == None %}Not Attempted
     {% else %}{{ answers|get_item:q.id }}{% endif %}
     {% endif %}
     
@@ -398,7 +398,7 @@ View Solution
             </td>
         </tr>
     </table>
-    <br>Your Answer: {% if answers|get_item:q.id == None %}Not Attempted{% else %}{{answers|get_item:q.id}}{% endif %}
+    <br>{% if user.role == 3 %}Your Answer{% else %}Students answer{% endif %}: {% if answers|get_item:q.id == None %}Not Attempted{% else %}{{answers|get_item:q.id}}{% endif %}
     {% endif %}
     <br>
 </div>

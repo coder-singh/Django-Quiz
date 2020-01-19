@@ -375,13 +375,19 @@ def viewResults(request):
     attempts = Attempt.objects.select_related('question', 'student').filter(question_id__in=question_ids)
     data = {}
     for attempt in attempts:
-        if attempt.student.first_name not in data.keys():
-            data[attempt.student.first_name]=0
+        l = []
+        if attempt.student_id not in data.keys():
+            l.append(attempt.student.first_name)
+            l.append(0)
+            data[attempt.student_id] = l
         
         if attempt.question.answer == attempt.answer:
-            data[attempt.student.first_name] += attempt.question.marks
+            data[attempt.student_id][1] += attempt.question.marks
+
+    print(data)
     context = {
         'data': data,
+        'quiz_id': quiz_id,
     }
     print(data)
     template = "main/viewResults.html"

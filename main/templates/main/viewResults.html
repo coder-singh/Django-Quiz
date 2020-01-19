@@ -10,7 +10,7 @@ Results
 <ul class="list-group">
 {% for d in data %}
 <li class="list-group-item">
-    {{d}} : {{data|get_item:d}}
+    {{data|get_item0:d}} : {{data|get_item1:d}} <a href="/main/viewSolution/?qid={{quiz_id}}&sid={{d}}">View Solution</a>
 </li>
 {% endfor %}
 </ul>

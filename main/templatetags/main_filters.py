@@ -11,3 +11,15 @@ def split(value):
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
+    
+@register.filter
+def get_item0(dictionary, key):
+    print(dictionary)
+    print(key)
+    return dictionary.get(key)[0]
+    
+@register.filter
+def get_item1(dictionary, key):
+    print(dictionary)
+    print(key)
+    return dictionary.get(key)[1]
