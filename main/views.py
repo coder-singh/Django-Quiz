@@ -7,7 +7,8 @@ from .models import *
 
 # Create your views here.
 def home(request):
-    if request.user.role == 3:
+    print(request.user)
+    if request.user.is_authenticated and request.user.role == 3:
         # student
         quizzes = Quiz.objects.select_related('tutor').all()
         attempted_quizzes = list(Attempt.objects.filter(student = request.user).values_list('question__quiz', flat=True).distinct())

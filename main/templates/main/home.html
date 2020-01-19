@@ -26,6 +26,7 @@ Home
     <li class="list-group-item">
         <div class="row mt-2">
             <div class="col-md-8">{{q.name}} by {{q.tutor.first_name}}</div>
+            {% if user.is_authenticated %}
             <div class="col-md-4">
                 {% if user.role == 1 or user.role == 2 %}
                 <a href="/main/viewQuiz/?id={{q.id}}">View Quiz&nbsp;&nbsp;</a>
@@ -41,6 +42,7 @@ Home
                 <a href="/main/editQuiz/?id={{q.id}}">Edit Quiz</a>
                 {% endif %}
             </div>
+            {% endif %}
         </div>
     </li>
 {% endfor %}
