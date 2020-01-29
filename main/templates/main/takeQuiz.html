@@ -51,7 +51,20 @@ remaining time : <span id="minutes"></span>
     {% csrf_token %}
     <div class="card">
         <div class="card-body">
-            <div class="card-title">Question: {{q.q_text}}</div>
+            <div class="row card-title">
+                <div class="col-md-10">
+                    Question: {{q.q_text}} no{{q.id}} correct{{q.answer}}
+                </div>
+                <div class="col-md-2">
+                    <span>
+                        {% if q.difficulty == 'easy' %}<button class="btn btn-success">Easy</button>
+                        {% elif q.difficulty == 'medium' %}<button class="btn btn-warning">Medium</button>
+                        {% elif q.difficulty == 'hard' %}<button class="btn btn-danger">Hard</button>
+                        {% else %}
+                        {% endif %}
+                </span>
+                </div>
+            </div>
             <div class="card-text">
     {% if q.q_image != '' %}
         <img src="/media/{{q.q_image}}" width=5%>

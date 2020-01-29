@@ -3,6 +3,11 @@ from .models import *
 from django.contrib.auth.forms import UserCreationForm
 
 class createQuizForm(forms.ModelForm):
+    quiz_choices = (
+        ('normal', 'Normal'),
+        ('adaptive', 'Adaptive'),
+    )
+    quiz_type = forms.ChoiceField(choices=quiz_choices)
     class Meta():
         model = Quiz
         fields = ('name', 'time', 'max_marks', 'pass_marks', 'no_questions')

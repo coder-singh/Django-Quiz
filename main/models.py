@@ -75,6 +75,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.first_name
 
+class Course(models.Model):
+    name = models.CharField(max_length=20, db_column='Name')
+    tutor = models.ForeignKey(User, on_delete=models.CASCADE, db_column='Tutor_Id')
+
+    class Meta:
+        db_table = 'Course'
+
+
 class Quiz(models.Model):
     name = models.CharField(max_length=20, db_column='Name')
     time = models.IntegerField(db_column='Time', blank=True, null=True)
@@ -82,6 +90,9 @@ class Quiz(models.Model):
     max_marks = models.IntegerField(db_column='Max_Marks')
     pass_marks = models.IntegerField(db_column='Passing_Marks')
     no_questions = models.IntegerField(db_column='Number_Questions')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='Course_Id')
+    quiz_type = models.CharField(db_column='Quiz_Type', max_length=9)
+    disabled = models.BooleanField(db_column='Disabled', default=False)
 
     class Meta:
         db_table = 'Quiz'
@@ -135,6 +146,7 @@ class Question(models.Model):
 
     answer = models.CharField(max_length=20, db_column='Answer', blank=True, null=True)
     marks = models.IntegerField(db_column='Marks', blank=True, null=True)
+    difficulty = models.CharField(max_length=6, db_column='Difficulty', blank=True, null=True)
 
     class Meta:
         db_table = 'Question'
@@ -146,3 +158,10 @@ class Attempt(models.Model):
 
     class Meta:
         db_table='Attempt'
+
+class Enrollment(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE, db_column='Student_Id')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='Course_Id')
+
+    class Meta:
+        db_table='Enrollment'

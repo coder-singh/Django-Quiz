@@ -12,7 +12,7 @@ Home
 <div class="row mb-4">
     <div class="col-md-3">Welcome {{user.first_name}}</div>
     <div class="col-md-6"></div>
-    <div class="col-md-3"><a href='/main/logout'>Logout</a>&nbsp;&nbsp;{% if user.role != 3 %}<a href="/main/createQuiz/">Create Quiz</a>{% endif %}</div>
+    <div class="col-md-3"><a href='/main/logout'>Logout</a>&nbsp;&nbsp;{% if user.role == 2 %}<a href="/main/createCourse/">Create Course</a>{% endif %}</div>
 </div>
 {% else %}
 <div class="row mb-4">
@@ -20,27 +20,25 @@ Home
     <div class="col-md-3"><a href='/main/register'>Register</a>&nbsp;&nbsp;<a href='/main/login'>Login</a></div>
 </div>
 {% endif %}
-
+<h3>Course Catalog</h3>
 <ul class="list-group">
-{% for q in quizzes %}
+{% for c in courses %}
     <li class="list-group-item">
         <div class="row mt-2">
-            <div class="col-md-8">{{q.name}} by {{q.tutor.first_name}}</div>
+            <div class="col-md-8">{{c.name}} by {{c.tutor.first_name}}</div>
             {% if user.is_authenticated %}
             <div class="col-md-4">
-                {% if user.role == 1 or user.role == 2 %}
-                <a href="/main/viewQuiz/?id={{q.id}}">View Quiz&nbsp;&nbsp;</a>
-                <a href="/main/viewResults/?id={{q.id}}">View Results&nbsp;&nbsp;</a>
-                {% elif user.role == 3 %}
-                    {% if q.id in attempted_quizzes %}
-                    <a href="/main/viewSolution/?qid={{q.id}}&sid={{request.user.id}}">View Solution</a>
+                <a href="/main/viewCourse/?id={{c.id}}">View Course&nbsp;&nbsp;</a>
+                {% if user.role == 3 %}
+                    {% if c.id in enrolled_courses %}
+                    Enrolled
                     {% else %}
-                    <a href="/main/takeQuiz/?id={{q.id}}">Take Quiz</a>
+                    <a href="/main/enroll/?id={{c.id}}">Enroll</a>
                     {% endif %}
                 {% endif %}
-                {% if user.role == 1 or q.tutor_id == user.id %}
-                <a href="/main/editQuiz/?id={{q.id}}">Edit Quiz</a>
-                {% endif %}
+                <!-- {% if user.role == 1 or c.tutor_id == user.id %}
+                <a href="/main/editCourse/?id={{c.id}}">Edit Course</a>
+                {% endif %} -->
             </div>
             {% endif %}
         </div>

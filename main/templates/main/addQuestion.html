@@ -63,9 +63,16 @@ $(document).ready(function(){
     <div class="col-md-3"><a href='/main/register'>Register</a>&nbsp;&nbsp;<a href='/main/login'>Login</a></div>
 </div>
 {% endif %}
+<hr>
+<p class="text-right">
+    {% if difficulty == 'easy' %}<button class="btn btn-success">Easy</button>
+    {% elif difficulty == 'medium' %}<button class="btn btn-warning">Medium</button>
+    {% elif difficulty == 'hard' %}<button class="btn btn-danger">Hard</button>
+    {% else %}
+    {% endif %}
+</p>
 <form method='POST' enctype="multipart/form-data">
     {% csrf_token %}
-    <input type="hidden" name="quiz_id" value="{{id}}">
     Question: <input type="text" name="q_text"><br>
     Image <input type="checkbox" onclick="toggle('q_image', $(this))"> Video <input type="checkbox" onclick="toggle('q_video', $(this))"> Audio <input type="checkbox" onclick="toggle('q_audio', $(this))"><br>
     <span id="q_image" class="hide">Image: <input type="file" name="q_image" accept="image/*" disabled><br></span>
@@ -275,7 +282,9 @@ $(document).ready(function(){
         
         
     </div>
+    <input type="hidden" name="quiz_id" value="{{quiz.id}}">
     <input type="hidden" name="question_no" value="{{question_no}}">
+    <input type="hidden" name="difficulty" value="{{difficulty}}">
     <br><br><hr><br><input type="submit" value="Submit">
 </form>
 {% endblock %}

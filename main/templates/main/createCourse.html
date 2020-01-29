@@ -3,7 +3,7 @@
 {% load staticfiles %}
 
 {% block title %}
-Create Quiz
+Create Course
 {% endblock %}
 
 {% block content %}
@@ -20,12 +20,11 @@ Create Quiz
     <div class="col-md-3"><a href='/main/register'>Register</a>&nbsp;&nbsp;<a href='/main/login'>Login</a></div>
 </div>
 {% endif %}
-{{form.errors}}
 <form method='POST'>
     {% csrf_token %}
-    {{form.as_p}}
-    <input type="hidden" name="course_id" value="{{course_id}}">
-    <input type="submit" value="Submit">
+    Name : <input type="text" name="name"><br>
+    <input type="submit" name="action" value="home">
+    <input type="submit" name="action" value="add">
 </form>
 
 {% endblock %}

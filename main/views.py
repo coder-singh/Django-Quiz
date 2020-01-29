@@ -6,24 +6,56 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 
 # Create your views here.
+def enroll(request):
+    course_id = request.GET['id']
+    enrollment = Enrollment()
+    enrollment.course_id = course_id
+    enrollment.student = request.user
+    enrollment.save()
+    return redirect('/main/home')
+
 def home(request):
-    print(request.user)
     if request.user.is_authenticated and request.user.role == 3:
         # student
-        quizzes = Quiz.objects.select_related('tutor').all()
-        attempted_quizzes = list(Attempt.objects.filter(student = request.user).values_list('question__quiz', flat=True).distinct())
+        courses = Course.objects.select_related('tutor').all()
+        enrolled_courses = list(Enrollment.objects.filter(student = request.user).values_list('course_id', flat=True).distinct())
         context = {
-            'quizzes': quizzes,
-            'attempted_quizzes': attempted_quizzes,
+            'courses': courses,
+            'enrolled_courses': enrolled_courses,
         }
         template = 'main/home.html'
         return render(request, template, context)
     else:
-        quizzes = Quiz.objects.select_related('tutor').all()
+        courses = Course.objects.select_related('tutor').all()
         context = {
-            'quizzes': quizzes,
+            'courses': courses,
         }
         template = 'main/home.html'
+        return render(request, template, context)
+
+@login_required
+def viewCourse(request):
+    course_id = request.GET['id']
+    course = Course.objects.select_related('tutor').get(pk=course_id)
+    if request.user.is_authenticated and request.user.role == 3:
+        # student
+        quizzes = Quiz.objects.filter(course_id = course_id)
+        print(quizzes)
+        attempted_quizzes = list(Attempt.objects.filter(student = request.user).values_list('question__quiz', flat=True).distinct())
+        context = {
+            'course': course,
+            'quizzes': quizzes,
+            'attempted_quizzes': attempted_quizzes,
+        }
+        template = 'main/viewCourse.html'
+        return render(request, template, context)
+    else:
+        quizzes = Quiz.objects.filter(course_id = course_id)
+        context = {
+            'course': course,
+            'quizzes': quizzes,
+        }
+        template = 'main/viewCourse.html'
         return render(request, template, context)
 
 def editQuiz(request):
@@ -49,6 +81,20 @@ def editQuiz(request):
     }
     template = 'main/editQuiz.html'
     return render(request, template, context)
+
+def disableQuiz(request):
+    quiz_id = request.GET['id']
+    quiz = Quiz.objects.get(pk=quiz_id)
+    quiz.disabled = True
+    quiz.save()
+    return redirect('/main/viewCourse/?id='+str(quiz.course_id))
+    
+def enableQuiz(request):
+    quiz_id = request.GET['id']
+    quiz = Quiz.objects.get(pk=quiz_id)
+    quiz.disabled = False
+    quiz.save()
+    return redirect('/main/viewCourse/?id='+str(quiz.course_id))
 
 def user_logout(request):
     logout(request)
@@ -100,18 +146,22 @@ def register(request):
 def createQuiz(request):
     if request.method=='GET':
         quizForm = createQuizForm()
+        course_id = request.GET['id']
     else:
+        course_id = request.POST.get('course_id')
         quizForm = createQuizForm(request.POST)
         if quizForm.is_valid():
             print('form is valid')
             quiz = quizForm.save(commit=False)
             quiz.tutor = request.user
+            quiz.course_id = course_id
             quiz.save()
             return redirect('/main/addQuestion/?id='+str(quiz.id))
         else:
             print('form is invalid')
     context = {
-        'form': quizForm
+        'form': quizForm,
+        'course_id': course_id,
     }
     template = 'main/createQuiz.html'
     return render(request, template, context)
@@ -121,9 +171,15 @@ def addQuestion(request):
     if request.method=='GET':
         if 'id' not in request.GET:
             return redirect('/main/home')
+        quiz_id = request.GET['id']
+        quiz = Quiz.objects.get(pk=quiz_id)
+        difficulty = None
+        if quiz.quiz_type == 'adaptive':
+            difficulty = "easy"
         context = {
-            'id': request.GET['id'],
+            'quiz': quiz,
             'question_no': 1,
+            'difficulty': difficulty,
         }
         template = 'main/addQuestion.html'
         return render(request, template, context)
@@ -341,15 +397,35 @@ def addQuestion(request):
             resultString = request.POST.get('answerma')+','+request.POST.get('answermb')+','+request.POST.get('answermc')+','+request.POST.get('answermd')
             question.answer = resultString
             
+        print(request.POST.get('difficulty'))
+        question.difficulty = request.POST.get('difficulty')
         question.save()
-        print('question_count: '+str(question_count))
-        print('question_no: '+str(question_no))
-        if question_count == question_no:
-            return redirect('/main/home')
         
+        difficulty = None
+
+        if quiz.quiz_type == 'normal':
+            if question_count == question_no:
+                return redirect('/main/home')
+        else:
+            easy_question_count = question_count
+            medium_question_count = (question_count - 3) if question_count >= 3 else 0
+            hard_question_count = (question_count - 6) if question_count >= 6 else 0
+            total = easy_question_count + medium_question_count + hard_question_count
+
+            if total == question_no:
+                return redirect('/main/home')
+
+            if question_no < easy_question_count:
+                difficulty = "easy"
+            elif question_no < (question_count + medium_question_count):
+                difficulty = "medium"
+            else:
+                difficulty = "hard"
+
         context = {
-            'id': quiz.id,
+            'quiz': quiz,
             'question_no': question_no+1,
+            'difficulty': difficulty,
         }
         template = 'main/addQuestion.html'
         return render(request, template, context)
@@ -395,6 +471,15 @@ def viewResults(request):
 
 def takeQuiz(request):
     if request.method=='GET':
+
+        if request.session.has_key('correct'):
+            del request.session['correct']
+            del request.session['easy']
+            del request.session['medium']
+            del request.session['hard']
+
+            request.session.modified = True
+
         quiz_id = request.GET['id']
         quiz = Quiz.objects.select_related('tutor').get(pk=quiz_id)
         questions = Question.objects.filter(quiz=quiz)
@@ -418,7 +503,7 @@ def takeQuiz(request):
         q_type = int(request.POST.get('question_type'))
         question_no = int(request.POST.get('question_no'))
         questions = Question.objects.filter(quiz=quiz)
-        question_count = questions.count()
+        question_count = quiz.no_questions
         last_question=False
 
         attempt = Attempt()
@@ -449,7 +534,38 @@ def takeQuiz(request):
         elif int(question_no) == question_count:
             return redirect('/main/viewResult/?s_id='+str(request.user.id)+'&q_id='+str(quiz.id))
         
+        # print('question_no: '+str(question_no)+', question_count: '+str(question_count))
         question = questions[question_no]
+
+        if quiz.quiz_type == 'adaptive':
+            if request.session.has_key('correct'):
+                print('session present')
+                correct = request.session['correct']
+                if(checkAnswer(attempt)):
+                    correct += 1
+                    if correct == 3:
+                        request.session['stage'] = levelUp(request.session['stage'])
+                        correct = 0
+                        print('level up')
+                    request.session['correct'] = correct
+                else:
+                    request.session['correct'] = 0
+                    request.session['stage'] = levelDown(request.session['stage'])     
+                    print('level down')
+                request.session[request.session['stage']] += 1              
+            else:
+                print('creating session')
+                request.session['stage'] = 'easy'
+                request.session['easy'] = 1
+                request.session['medium'] = -1
+                request.session['hard'] = -1
+                if(checkAnswer(attempt)):
+                    request.session['correct'] = 1
+                else:
+                    request.session['correct'] = 0
+                    
+            question = questions.filter(difficulty=request.session['stage'])[request.session[request.session['stage']]]
+                
         context = {
             'last_question': last_question,
             'q': question,
@@ -724,3 +840,44 @@ def editQuestion(request):
         question.save()
 
         return redirect("/main/viewQuiz/?id="+str(question.quiz_id))
+
+@login_required
+def createCourse(request):
+    if request.method=='GET':
+        context = {
+
+        }
+        template = 'main/createCourse.html'
+        return render(request, template, context)
+    else:
+        course = Course()
+        course.name = request.POST.get('name')
+        course.tutor = request.user
+        course.save()
+        if request.POST.get('action') == 'home':
+            return redirect('/main/home')
+        else:
+            return redirect('/main/createQuiz/?id='+str(course.id))
+
+def checkAnswer(attempt):
+    print('your: '+attempt.answer+', correct: '+attempt.question.answer)
+    if attempt.question.answer == attempt.answer:
+        return True
+    else:
+        return False
+
+def levelUp(stage):
+    if stage == 'easy':
+        return 'medium'
+    elif stage == 'medium':
+        return 'hard'
+    else:
+        return 'hard'
+
+def levelDown(stage):
+    if stage == 'hard':
+        return 'medium'
+    elif stage == 'medium':
+        return 'easy'
+    else:
+        return 'easy'
