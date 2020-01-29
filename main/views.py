@@ -46,11 +46,17 @@ def viewCourse(request):
         enrolled = True
         if enrollment == []:
             enrolled = False
+
+        attempted_quiz_count = len(attempted_quizzes)
+        total_quiz_count = quizzes.count()
+
+        percent = int((attempted_quiz_count/total_quiz_count)*100)
         context = {
             'course': course,
             'quizzes': quizzes,
             'attempted_quizzes': attempted_quizzes,
             'enrolled': enrolled,
+            'percent': percent,
         }
         template = 'main/viewCourse.html'
         return render(request, template, context)
