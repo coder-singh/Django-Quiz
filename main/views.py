@@ -42,10 +42,15 @@ def viewCourse(request):
         quizzes = Quiz.objects.filter(course_id = course_id)
         print(quizzes)
         attempted_quizzes = list(Attempt.objects.filter(student = request.user).values_list('question__quiz', flat=True).distinct())
+        enrollment = list(Enrollment.objects.filter(course_id=course_id, student_id=request.user.id))
+        enrolled = True
+        if enrollment == []:
+            enrolled = False
         context = {
             'course': course,
             'quizzes': quizzes,
             'attempted_quizzes': attempted_quizzes,
+            'enrolled': enrolled,
         }
         template = 'main/viewCourse.html'
         return render(request, template, context)

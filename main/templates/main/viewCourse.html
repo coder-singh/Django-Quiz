@@ -41,10 +41,12 @@ Course Home
                 <a href="/main/viewQuiz/?id={{q.id}}">View&nbsp;&nbsp;</a>
                 <a href="/main/viewResults/?id={{q.id}}">Results&nbsp;&nbsp;</a>
                 {% elif user.role == 3 %}
-                {% if q.id in attempted_quizzes %}
-                    <a href="/main/viewSolution/?qid={{q.id}}&sid={{request.user.id}}">View Solution</a>
-                {% else %}
-                    <a href="/main/takeQuiz/?id={{q.id}}">Take Quiz</a>
+                {% if enrolled %}
+                    {% if q.id in attempted_quizzes %}
+                        <a href="/main/viewSolution/?qid={{q.id}}&sid={{request.user.id}}">View Solution</a>
+                    {% else %}
+                        <a href="/main/takeQuiz/?id={{q.id}}">Take Quiz</a>
+                    {% endif %}
                 {% endif %}
             {% endif %}
             </div>
@@ -53,5 +55,5 @@ Course Home
     </li>
 {% endfor %}
 </ul>
-<div><a href="/main/createQuiz/?id={{course.id}}">Add Quiz</a></div>
+{% if user.role == 2 %}<div><a href="/main/createQuiz/?id={{course.id}}">Add Quiz</a></div>{% endif %}
 {% endblock %}
