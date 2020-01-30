@@ -22,13 +22,16 @@ Course Home
 {% endif %}
 
 <h3>{{course.name}} by {{course.tutor.first_name}}</h3>
+{% if user.role == 3 %}
 <div class="progress m-4">
   <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:{{percent}}%">
     {{percent}}% Complete
   </div>
 </div>
+{% endif %}
 <ul class="list-group">
 {% for q in quizzes %}
+    {% if q.disabled == 1 and show or q.disabled == 0 %}
     <li class="list-group-item">
         <div class="row mt-2">
             <div class="col-md-8">{{q.name}}</div>
@@ -58,6 +61,7 @@ Course Home
             {% endif %}
         </div>
     </li>
+    {% endif %}
 {% endfor %}
 </ul>
 {% if user.role == 2 %}<div><a href="/main/createQuiz/?id={{course.id}}">Add Quiz</a></div>{% endif %}

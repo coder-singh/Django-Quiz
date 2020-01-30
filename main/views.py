@@ -39,32 +39,54 @@ def viewCourse(request):
     course = Course.objects.select_related('tutor').get(pk=course_id)
     if request.user.is_authenticated and request.user.role == 3:
         # student
-        quizzes = Quiz.objects.filter(course_id = course_id)
-        print(quizzes)
+        quizzes = Quiz.objects.filter(course_id = course_id, disabled=0)
+
         attempted_quizzes = list(Attempt.objects.filter(student = request.user).values_list('question__quiz', flat=True).distinct())
+
         enrollment = list(Enrollment.objects.filter(course_id=course_id, student_id=request.user.id))
         enrolled = True
         if enrollment == []:
             enrolled = False
 
-        attempted_quiz_count = len(attempted_quizzes)
+        results = {}
+        passed_count = 0
+        for qid in attempted_quizzes:
+            quiz = Quiz.objects.get(pk=qid)
+            question_ids = Question.objects.filter(quiz_id=qid).values_list('id', flat=True)
+            attempts = Attempt.objects.select_related('question').filter(student = request.user, question_id__in=question_ids)
+            score = 0
+            for a in attempts:
+                if a.answer==a.question.answer:
+                    score += a.question.marks
+            if score >= quiz.pass_marks:
+                results[qid] = True
+                passed_count += 1
+            else:
+                results[qid] = False
+        print(results)
+
         total_quiz_count = quizzes.count()
 
-        percent = int((attempted_quiz_count/total_quiz_count)*100)
+        percent = int((passed_count/total_quiz_count)*100)
         context = {
             'course': course,
             'quizzes': quizzes,
             'attempted_quizzes': attempted_quizzes,
             'enrolled': enrolled,
             'percent': percent,
+            'show': False,
         }
         template = 'main/viewCourse.html'
         return render(request, template, context)
     else:
         quizzes = Quiz.objects.filter(course_id = course_id)
+        show = False
+        if request.user.is_authenticated and (request.user.role == 1 or request.user.role == 2):
+            show = True
         context = {
             'course': course,
             'quizzes': quizzes,
+            'show': show,
         }
         template = 'main/viewCourse.html'
         return render(request, template, context)
@@ -159,6 +181,7 @@ def createQuiz(request):
         quizForm = createQuizForm()
         course_id = request.GET['id']
     else:
+        print(request.POST)
         course_id = request.POST.get('course_id')
         quizForm = createQuizForm(request.POST)
         if quizForm.is_valid():
