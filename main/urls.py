@@ -25,6 +25,7 @@ urlpatterns = [
     path('viewQuiz/', main_views.viewQuiz, name='viewQuiz'),
     path('editQuiz/', main_views.editQuiz, name='editQuiz'),
     path('disableQuiz/', main_views.disableQuiz, name='disableQuiz'),
+    path('deleteQuiz/', main_views.deleteQuiz, name='deleteQuiz'),
     path('enableQuiz/', main_views.enableQuiz, name='enableQuiz'),
     path('takeQuiz/', main_views.takeQuiz, name='takeQuiz'),
     path('addQuestion/', main_views.addQuestion, name='addQuestion'),
@@ -34,5 +35,6 @@ urlpatterns = [
     path('viewSolution/', main_views.viewSolution, name="viewSolution"),
     path('createCourse/', main_views.createCourse, name='createCourse'),
     path('viewCourse/', main_views.viewCourse, name='viewCourse'),
+    path('deleteCourse/', main_views.deleteCourse, name='deleteCourse'),
     path('enroll/', main_views.enroll, name='enroll'),
 ]

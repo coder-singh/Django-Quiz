@@ -29,6 +29,9 @@ Home
             {% if user.is_authenticated %}
             <div class="col-md-4">
                 <a href="/main/viewCourse/?id={{c.id}}">View Course&nbsp;&nbsp;</a>
+                {% if user.role == 1 or user.id == c.tutor.id %}
+                <a href="/main/deleteCourse/?id={{c.id}}">Delete Course</a>
+                {% endif %}
                 {% if user.role == 3 %}
                     {% if c.id in enrolled_courses %}
                     Enrolled

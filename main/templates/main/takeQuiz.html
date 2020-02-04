@@ -288,25 +288,30 @@ remaining time : <span id="minutes"></span>
     {% if q.q_type == 5 %}
     <table class="table">
         <tr>
-            <td>A) {{q.a_text}}
-                {% if q.a_image != '' %}
-                    <img src="/media/{{q.a_image}}" width=5%>
-                {% endif %}
-                {% if q.a_video != None %}
-                <iframe width="300" height="200" src="{{q.a_video}}" frameborder="0" allowfullscreen></iframe>
-                </iframe>
-                {% endif %}
-                {% if q.a_audio != '' %}
-                <audio controls>
-                    <source src="/media/{{q.a_audio}}" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-                {% endif %}
-            </td>
             <td>
                 <div class="row">
-                    <div class="col-md-2"><select name="answerma"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select></div>
-                <div class="col-md-10">{{q.a2_text}}
+                    <div class="col-md-7">
+                        A) {{q.a_text}}
+                        {% if q.a_image != '' %}
+                            <img src="/media/{{q.a_image}}" width=5%>
+                        {% endif %}
+                        {% if q.a_video != None %}
+                        <iframe width="300" height="200" src="{{q.a_video}}" frameborder="0" allowfullscreen></iframe>
+                        </iframe>
+                        {% endif %}
+                        {% if q.a_audio != '' %}
+                        <audio controls>
+                            <source src="/media/{{q.a_audio}}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-5">
+                        <select name="answerma"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select>
+                    </div>
+                </div>
+            </td>
+            <td>{{q.a2_text}}
                     {% if q.a2_image != '' %}
                         <img src="/media/{{q.a2_image}}" width=5%>
                     {% endif %}
@@ -320,116 +325,130 @@ remaining time : <span id="minutes"></span>
                         Your browser does not support the audio element.
                     </audio>
                     {% endif %}
-                </div>
-                </div>
             </td>
         </tr>
         <tr>
-            <td>B) {{q.b_text}}
-                {% if q.b_image != '' %}
+            <td>
+                <div class="row">
+                    <div class="col-md-7">
+                        B) {{q.b_text}}
+                        {% if q.b_image != '' %}
+                            <img src="/media/{{q.b_image}}" width=5%>
+                        {% endif %}
+                        {% if q.b_video != None %}
+                        <iframe width="300" height="200" src="{{q.b_video}}" frameborder="0" allowfullscreen></iframe>
+                        </iframe>
+                        {% endif %}
+                        {% if q.b_audio != '' %}
+                        <audio controls>
+                            <source src="/media/{{q.b_audio}}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                        {% endif %}
+
+                    </div>
+                    <div class="col-md-5">
+                        <select name="answermb"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select>
+                    </div>
+                </div>
+            </td>
+            <td>
+                {{q.b2_text}}
+                {% if q.b2_image != '' %}
                     <img src="/media/{{q.b_image}}" width=5%>
                 {% endif %}
-                {% if q.b_video != None %}
-                <iframe width="300" height="200" src="{{q.b_video}}" frameborder="0" allowfullscreen></iframe>
+                {% if q.b2_video != None %}
+                <iframe width="300" height="200" src="{{q.b2_video}}" frameborder="0" allowfullscreen></iframe>
                 </iframe>
                 {% endif %}
-                {% if q.b_audio != '' %}
+                {% if q.b2_audio != '' %}
                 <audio controls>
-                    <source src="/media/{{q.b_audio}}" type="audio/mpeg">
+                    <source src="/media/{{q.b2_audio}}" type="audio/mpeg">
                     Your browser does not support the audio element.
                 </audio>
                 {% endif %}
-            </td>
-            <td>
-                <div class="row">
-                    <div class="col-md-2"><select name="answermb"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select></div>
-                <div class="col-md-10">{{q.b2_text}}
-                    {% if q.b2_image != '' %}
-                        <img src="/media/{{q.b_image}}" width=5%>
-                    {% endif %}
-                    {% if q.b2_video != None %}
-                    <iframe width="300" height="200" src="{{q.b2_video}}" frameborder="0" allowfullscreen></iframe>
-                    </iframe>
-                    {% endif %}
-                    {% if q.b2_audio != '' %}
-                    <audio controls>
-                        <source src="/media/{{q.b2_audio}}" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
-                    {% endif %}
-                </div></div>
             </td>
         </tr>
         <tr>
-            <td>C) {{q.c_text}}
-                {% if q.c_image != '' %}
-                    <img src="/media/{{q.c_image}}" width=5%>
+            <td>
+                <div class="row">
+                    <div class="col-md-7">
+                        C) {{q.c_text}}
+                        {% if q.c_image != '' %}
+                            <img src="/media/{{q.c_image}}" width=5%>
+                        {% endif %}
+                        {% if q.c_video != None %}
+                        <iframe width="300" height="200" src="{{q.c_video}}" frameborder="0" allowfullscreen></iframe>
+                        </iframe>
+                        {% endif %}
+                        {% if q.c_audio != '' %}
+                        <audio controls>
+                            <source src="/media/{{q.c_audio}}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-5">
+                        <select name="answermc"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select>
+                    </div>
+                </div>
+            </td>
+            <td>
+                {{q.c2_text}}
+                {% if q.c2_image != '' %}
+                    <img src="/media/{{q.c2_image}}" width=5%>
                 {% endif %}
-                {% if q.c_video != None %}
-                <iframe width="300" height="200" src="{{q.c_video}}" frameborder="0" allowfullscreen></iframe>
+                {% if q.c2_video != None %}
+                <iframe width="300" height="200" src="{{q.c2_video}}" frameborder="0" allowfullscreen></iframe>
                 </iframe>
                 {% endif %}
-                {% if q.c_audio != '' %}
+                {% if q.c2_audio != '' %}
                 <audio controls>
-                    <source src="/media/{{q.c_audio}}" type="audio/mpeg">
+                    <source src="/media/{{q.c2_audio}}" type="audio/mpeg">
                     Your browser does not support the audio element.
                 </audio>
                 {% endif %}
-            </td>
-            <td>
-                <div class="row">
-                    <div class="col-md-2"><select name="answermc"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select></div>
-                <div class="col-md-10">{{q.c2_text}}
-                    {% if q.c2_image != '' %}
-                        <img src="/media/{{q.c2_image}}" width=5%>
-                    {% endif %}
-                    {% if q.c2_video != None %}
-                    <iframe width="300" height="200" src="{{q.c2_video}}" frameborder="0" allowfullscreen></iframe>
-                    </iframe>
-                    {% endif %}
-                    {% if q.c2_audio != '' %}
-                    <audio controls>
-                        <source src="/media/{{q.c2_audio}}" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
-                    {% endif %}
-                </div></div>
             </td>
         </tr>
         <tr>
-            <td>D) {{q.d_text}}
-                {% if q.d_image != '' %}
-                    <img src="/media/{{q.d_image}}" width=5%>
+            <td>
+                <div class="row">
+                    <div class="col-md-7">
+                        D) {{q.d_text}}
+                        {% if q.d_image != '' %}
+                            <img src="/media/{{q.d_image}}" width=5%>
+                        {% endif %}
+                        {% if q.d_video != None %}
+                        <iframe width="300" height="200" src="{{q.d_video}}" frameborder="0" allowfullscreen></iframe>
+                        </iframe>
+                        {% endif %}
+                        {% if q.d_audio != '' %}
+                        <audio controls>
+                            <source src="/media/{{q.d_audio}}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-5">
+                        <select name="answermd"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select>
+                    </div>
+                </div>
+            </td>
+            <td>
+                {{q.d2_text}}
+                {% if q.d2_image != '' %}
+                    <img src="/media/{{q.d2_image}}" width=5%>
                 {% endif %}
-                {% if q.d_video != None %}
-                <iframe width="300" height="200" src="{{q.d_video}}" frameborder="0" allowfullscreen></iframe>
+                {% if q.d2_video != None %}
+                <iframe width="300" height="200" src="{{q.d2_video}}" frameborder="0" allowfullscreen></iframe>
                 </iframe>
                 {% endif %}
-                {% if q.d_audio != '' %}
+                {% if q.d2_audio != '' %}
                 <audio controls>
-                    <source src="/media/{{q.d_audio}}" type="audio/mpeg">
+                    <source src="/media/{{q.d2_audio}}" type="audio/mpeg">
                     Your browser does not support the audio element.
                 </audio>
                 {% endif %}
-            </td>
-            <td>
-                <div class="row">
-                    <div class="col-md-2"><select name="answermd"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select></div>
-                <div class="col-md-10">{{q.d2_text}}
-                    {% if q.d2_image != '' %}
-                        <img src="/media/{{q.d2_image}}" width=5%>
-                    {% endif %}
-                    {% if q.d2_video != None %}
-                    <iframe width="300" height="200" src="{{q.d2_video}}" frameborder="0" allowfullscreen></iframe>
-                    </iframe>
-                    {% endif %}
-                    {% if q.d2_audio != '' %}
-                    <audio controls>
-                        <source src="/media/{{q.d2_audio}}" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
-                    {% endif %}
-                </div></div>
             </td>
         </tr>
     </table>

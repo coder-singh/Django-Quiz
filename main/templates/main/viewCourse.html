@@ -34,16 +34,17 @@ Course Home
     {% if q.disabled == 1 and show or q.disabled == 0 %}
     <li class="list-group-item">
         <div class="row mt-2">
-            <div class="col-md-8">{{q.name}}</div>
+            <div class="col-md-7">{{q.name}}</div>
             {% if user.is_authenticated %}
-            <div class="col-md-4">
+            <div class="col-md-5">
                 {% if user.role == 1 or q.tutor_id == user.id %}
-                    <a href="/main/editQuiz/?id={{q.id}}">Edit Quiz</a>&nbsp;&nbsp;
+                <a href="/main/editQuiz/?id={{q.id}}">Edit Quiz</a>&nbsp;&nbsp;
                     {% if q.disabled == 0 %}
                     <a href="/main/disableQuiz/?id={{q.id}}">Disable Quiz</a>&nbsp;&nbsp;
                     {% else %}
                     <a href="/main/enableQuiz/?id={{q.id}}">Enable Quiz</a>&nbsp;&nbsp;
                     {% endif %}
+                <a href="/main/deleteQuiz/?id={{q.id}}">Delete Quiz</a>&nbsp;&nbsp;
                 {% endif %}
                 {% if user.role == 1 or user.role == 2 %}
                 <a href="/main/viewQuiz/?id={{q.id}}">View&nbsp;&nbsp;</a>

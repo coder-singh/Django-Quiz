@@ -198,83 +198,94 @@ $(document).ready(function(){
         <table class="table">
             <tr>
                 <td>
-                    Option A: <input type="text" name="a_text5"><br>
-                    Image <input type="checkbox" onclick="toggle('a_image5', $(this))"> Video <input type="checkbox" onclick="toggle('a_video5', $(this))"> Audio<input type="checkbox" onclick="toggle('a_audio5', $(this))"><br>
-                    <span id="a_image5" class="hide">Image: <input type="file" name="a_image5" accept="image/*" disabled><br></span>
-                    <span id="a_video5" class="hide">Video: <input type="text" name="a_video5" disabled><br></span>
-                    <span id="a_audio5" class="hide">Audio: <input type="file" name="a_audio5" accept="audio/*" disabled><br></span>
+                    <div class="row">
+                    <div class="col-md-7">
+                        Option A: <input type="text" name="a_text5"><br>
+                        Image <input type="checkbox" onclick="toggle('a_image5', $(this))"> Video <input type="checkbox" onclick="toggle('a_video5', $(this))"> Audio<input type="checkbox" onclick="toggle('a_audio5', $(this))"><br>
+                        <span id="a_image5" class="hide">Image: <input type="file" name="a_image5" accept="image/*" disabled><br></span>
+                        <span id="a_video5" class="hide">Video: <input type="text" name="a_video5" disabled><br></span>
+                        <span id="a_audio5" class="hide">Audio: <input type="file" name="a_audio5" accept="audio/*" disabled><br></span>
+                    </div>
+                    <div class="col-md-5">
+                        <select name="answerma"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select>
+                    </div>
+                    </div>
                 </td>
                 <td>
-                    <div class="row">
-                        <div class="col-md-2"><select name="answerma"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select></div>
-                    <div class="col-md-10">
-                        Option A: <input type="text" name="a2_text5"><br>
-                        Image <input type="checkbox" onclick="toggle('a2_image5', $(this))"> Video <input type="checkbox" onclick="toggle('a2_video5', $(this))"> Audio<input type="checkbox" onclick="toggle('a2_audio5', $(this))"><br>
-                        <span id="a2_image5" class="hide">Image: <input type="file" name="a2_image5" accept="image/*" disabled><br></span>
-                        <span id="a2_video5" class="hide">Video: <input type="text" name="a2_video5" disabled><br></span>
-                        <span id="a2_audio5" class="hide">Audio: <input type="file" name="a2_audio5" accept="audio/*" disabled><br></span>
-                    </div>
-                    </div>
+                    Option A: <input type="text" name="a2_text5"><br>
+                    Image <input type="checkbox" onclick="toggle('a2_image5', $(this))"> Video <input type="checkbox" onclick="toggle('a2_video5', $(this))"> Audio<input type="checkbox" onclick="toggle('a2_audio5', $(this))"><br>
+                    <span id="a2_image5" class="hide">Image: <input type="file" name="a2_image5" accept="image/*" disabled><br></span>
+                    <span id="a2_video5" class="hide">Video: <input type="text" name="a2_video5" disabled><br></span>
+                    <span id="a2_audio5" class="hide">Audio: <input type="file" name="a2_audio5" accept="audio/*" disabled><br></span>
                 </td>
             </tr>
             <tr>
                 <td>
-                    Option B: <input type="text" name="b_text5"><br>
-                    Image <input type="checkbox" onclick="toggle('b_image5', $(this))"> Video <input type="checkbox" onclick="toggle('b_video5', $(this))"> Audio<input type="checkbox" onclick="toggle('b_audio5', $(this))"><br>
-                    <span id="b_image5" class="hide">Image: <input type="file" name="b_image5" accept="image/*" disabled><br></span>
-                    <span id="b_video5" class="hide">Video: <input type="text" name="b_video5" disabled><br></span>
-                    <span id="b_audio5" class="hide">Audio: <input type="file" name="b_audio5" accept="audio/*" disabled><br></span>
+                    <div class="row">
+                        <div class="col-md-7">
+                            Option B: <input type="text" name="b_text5"><br>
+                            Image <input type="checkbox" onclick="toggle('b_image5', $(this))"> Video <input type="checkbox" onclick="toggle('b_video5', $(this))"> Audio<input type="checkbox" onclick="toggle('b_audio5', $(this))"><br>
+                            <span id="b_image5" class="hide">Image: <input type="file" name="b_image5" accept="image/*" disabled><br></span>
+                            <span id="b_video5" class="hide">Video: <input type="text" name="b_video5" disabled><br></span>
+                            <span id="b_audio5" class="hide">Audio: <input type="file" name="b_audio5" accept="audio/*" disabled><br></span>
+                        </div>
+                        <div class="col-md-5">
+                            <select name="answermb"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select>
+                        </div>
+                    </div>
                 </td>
                 <td>
-                    <div class="row">
-                        <div class="col-md-2"><select name="answermb"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select></div>
-                    <div class="col-md-10">
                         Option B: <input type="text" name="b2_text5"><br>
                         Image <input type="checkbox" onclick="toggle('b2_image5', $(this))"> Video <input type="checkbox" onclick="toggle('b2_video5', $(this))"> Audio<input type="checkbox" onclick="toggle('b2_audio5', $(this))"><br>
                         <span id="b2_image5" class="hide">Image: <input type="file" name="b2_image5" accept="image/*" disabled><br></span>
                         <span id="b2_video5" class="hide">Video: <input type="text" name="b2_video5" disabled><br></span>
                         <span id="b2_audio5" class="hide">Audio: <input type="file" name="b2_audio5" accept="audio/*" disabled><br></span>
-                    </div></div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    Opton C: <input type="text" name="c_text5"><br>
-                    Image <input type="checkbox" onclick="toggle('c_image5', $(this))"> Video <input type="checkbox" onclick="toggle('c_video5', $(this))"> Audio<input type="checkbox" onclick="toggle('c_audio5', $(this))"><br>
-                    <span id="c_image5" class="hide">Image: <input type="file" name="c_image5" accept="image/*" disabled><br></span>
-                    <span id="c_video5" class="hide">Video: <input type="text" name="c_video5" disabled><br></span>
-                    <span id="c_audio5" class="hide">Audio: <input type="file" name="c_audio5" accept="audio/*" disabled><br></span>
+                    <div class="row">
+                        <div class="col-md-7">
+                            Opton C: <input type="text" name="c_text5"><br>
+                            Image <input type="checkbox" onclick="toggle('c_image5', $(this))"> Video <input type="checkbox" onclick="toggle('c_video5', $(this))"> Audio<input type="checkbox" onclick="toggle('c_audio5', $(this))"><br>
+                            <span id="c_image5" class="hide">Image: <input type="file" name="c_image5" accept="image/*" disabled><br></span>
+                            <span id="c_video5" class="hide">Video: <input type="text" name="c_video5" disabled><br></span>
+                            <span id="c_audio5" class="hide">Audio: <input type="file" name="c_audio5" accept="audio/*" disabled><br></span>
+                        </div>
+                        <div class="col-md-5">
+                            <select name="answermc"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select>
+                        </div>
+                    </div>
                 </td>
                 <td>
-                    <div class="row">
-                        <div class="col-md-2"><select name="answermc"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select></div>
-                    <div class="col-md-10">
                         Opton C: <input type="text" name="c2_text5"><br>
                         Image <input type="checkbox" onclick="toggle('c2_image5', $(this))"> Video <input type="checkbox" onclick="toggle('c2_video5', $(this))"> Audio<input type="checkbox" onclick="toggle('c2_audio5', $(this))"><br>
                         <span id="c2_image5" class="hide">Image: <input type="file" name="c2_image5" accept="image/*" disabled><br></span>
                         <span id="c2_video5" class="hide">Video: <input type="text" name="c2_video5" disabled><br></span>
                         <span id="c2_audio5" class="hide">Audio: <input type="file" name="c2_audio5" accept="audio/*" disabled><br></span>
-                    </div></div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    Option D: <input type="text" name="d_text5"><br>
-                    Image <input type="checkbox" onclick="toggle('d_image5', $(this))"> Video <input type="checkbox" onclick="toggle('d_video5', $(this))"> Audio<input type="checkbox" onclick="toggle('d_audio5', $(this))"><br>
-                    <span id="d_image5" class="hide">Image: <input type="file" name="d_image5" accept="image/*" disabled><br></span>
-                    <span id="d_video5" class="hide">Video: <input type="text" name="d_video5" disabled><br></span>
-                    <span id="d_audio5" class="hide">Audio: <input type="file" name="d_audio5" accept="audio/*" disabled><br></span>
+                    <div class="row">
+                        <div class="col-md-7">
+                            Option D: <input type="text" name="d_text5"><br>
+                            Image <input type="checkbox" onclick="toggle('d_image5', $(this))"> Video <input type="checkbox" onclick="toggle('d_video5', $(this))"> Audio<input type="checkbox" onclick="toggle('d_audio5', $(this))"><br>
+                            <span id="d_image5" class="hide">Image: <input type="file" name="d_image5" accept="image/*" disabled><br></span>
+                            <span id="d_video5" class="hide">Video: <input type="text" name="d_video5" disabled><br></span>
+                            <span id="d_audio5" class="hide">Audio: <input type="file" name="d_audio5" accept="audio/*" disabled><br></span>
+                        </div>
+                        <div class="col-md-5">
+                            <select name="answermd"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select>
+                        </div>
+                    </div>
                 </td>
                 <td>
-                    <div class="row">
-                        <div class="col-md-2"><select name="answermd"><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select></div>
-                    <div class="col-md-10">
                         Option D: <input type="text" name="d2_text5"><br>
                         Image <input type="checkbox" onclick="toggle('d2_image5', $(this))"> Video <input type="checkbox" onclick="toggle('d2_video5', $(this))"> Audio<input type="checkbox" onclick="toggle('d2_audio5', $(this))"><br>
                         <span id="d2_image5" class="hide">Image: <input type="file" name="d2_image5" accept="image/*" disabled><br></span>
                         <span id="d2_video5" class="hide">Video: <input type="text" name="d2_video5" disabled><br></span>
                         <span id="d2_audio5" class="hide">Audio: <input type="file" name="d2_audio5" accept="audio/*" disabled><br></span>
-                    </div></div>
                 </td>
             </tr>
         </table>

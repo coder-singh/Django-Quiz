@@ -40,9 +40,9 @@ def viewCourse(request):
     if request.user.is_authenticated and request.user.role == 3:
         # student
         quizzes = Quiz.objects.filter(course_id = course_id, disabled=0)
-
-        attempted_quizzes = list(Attempt.objects.filter(student = request.user).values_list('question__quiz', flat=True).distinct())
-
+        print(quizzes)
+        attempted_quizzes = list(Attempt.objects.select_related('question__quiz__course').filter(student = request.user, question__quiz__course_id=course_id).values_list('question__quiz', flat=True).distinct())
+        print(attempted_quizzes)
         enrollment = list(Enrollment.objects.filter(course_id=course_id, student_id=request.user.id))
         enrolled = True
         if enrollment == []:
@@ -915,3 +915,15 @@ def levelDown(stage):
         return 'easy'
     else:
         return 'easy'
+
+def deleteCourse(request):
+    course_id = request.GET['id']
+    course = Course.objects.get(pk=course_id)
+    course.delete()
+    return redirect('/main/home')
+
+def deleteQuiz(request):
+    quiz_id = request.GET['id']
+    quiz = Quiz.objects.get(pk=quiz_id)
+    quiz.delete()
+    return redirect('/main/home')
