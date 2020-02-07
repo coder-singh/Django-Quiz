@@ -441,9 +441,10 @@ def addQuestion(request):
             if question_count == question_no:
                 return redirect('/main/home')
         else:
+            step = int(quiz.step_size)
             easy_question_count = question_count
-            medium_question_count = (question_count - 3) if question_count >= 3 else 0
-            hard_question_count = (question_count - 6) if question_count >= 6 else 0
+            medium_question_count = (question_count - step) if question_count >= step else 0
+            hard_question_count = (question_count - (2*step)) if question_count >= (2*step) else 0
             total = easy_question_count + medium_question_count + hard_question_count
 
             if total == question_no:
@@ -572,12 +573,13 @@ def takeQuiz(request):
         question = questions[question_no]
 
         if quiz.quiz_type == 'adaptive':
+            step = int(quiz.step_size)
             if request.session.has_key('correct'):
                 print('session present')
                 correct = request.session['correct']
                 if(checkAnswer(attempt)):
                     correct += 1
-                    if correct == 3:
+                    if correct == step:
                         request.session['stage'] = levelUp(request.session['stage'])
                         correct = 0
                         print('level up')
@@ -595,6 +597,10 @@ def takeQuiz(request):
                 request.session['hard'] = -1
                 if(checkAnswer(attempt)):
                     request.session['correct'] = 1
+                    if step == 1:
+                        request.session['correct'] = 0
+                        request.session['stage'] = 'medium'
+                        request.session['medium'] = 0
                 else:
                     request.session['correct'] = 0
                     

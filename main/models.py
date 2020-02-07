@@ -93,6 +93,7 @@ class Quiz(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='Course_Id')
     quiz_type = models.CharField(db_column='Quiz_Type', max_length=9)
     disabled = models.BooleanField(db_column='Disabled', default=False)
+    step_size = models.IntegerField(db_column='Step_Size', default=1)
 
     class Meta:
         db_table = 'Quiz'

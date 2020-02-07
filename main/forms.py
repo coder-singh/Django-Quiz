@@ -10,7 +10,7 @@ class createQuizForm(forms.ModelForm):
     quiz_type = forms.ChoiceField(choices=quiz_choices)
     class Meta():
         model = Quiz
-        fields = ('name', 'time', 'max_marks', 'pass_marks', 'no_questions', 'quiz_type')
+        fields = ('name', 'time', 'max_marks', 'pass_marks', 'no_questions', 'quiz_type', 'step_size')
 
 class RegisterForm(UserCreationForm):
     role_choices = (
