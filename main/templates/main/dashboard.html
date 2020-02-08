@@ -1,0 +1,22 @@
+
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+<form method="post" autocomplete="off">
+    {% csrf_token %}
+    <p>First Name: <input type="text" name="first_name" value="{{user.first_name}}"></p>
+    <p>Last Name: <input type="text" name="last_name" value="{{user.last_name}}"></p>
+    <input type="submit" name="info_change" value="Update Information"><br>
+</form><br><br>
+
+<form method="post" autocomplete="off" id="pwd">
+    {% csrf_token %}
+{{form.as_p}}
+<input type="submit" name="pwd_change" value="Update Password">
+</form>
+{% endblock %}

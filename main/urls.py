@@ -37,4 +37,5 @@ urlpatterns = [
     path('viewCourse/', main_views.viewCourse, name='viewCourse'),
     path('deleteCourse/', main_views.deleteCourse, name='deleteCourse'),
     path('enroll/', main_views.enroll, name='enroll'),
+    path('dashboard/', main_views.dashboard, name='dashboard'),
 ]

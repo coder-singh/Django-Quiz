@@ -5,7 +5,54 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import *
 
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'accounts/change_password.html', {
+        'form': form
+    })
 # Create your views here.
+def dashboard(request):
+    if request.method=='GET':
+        form = PasswordChangeForm(request.user)
+    else:
+        if 'info_change' in request.POST:
+            user = request.user
+            user.first_name=request.POST.get('first_name')
+            user.last_name=request.POST.get('last_name')
+            user.save()
+            update_session_auth_hash(request, user)
+            return redirect('/main/dashboard')
+        elif 'pwd_change' in request.POST:
+            form = PasswordChangeForm(request.user, request.POST)
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request, user)  # Important!
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('/main/dashboard')
+            else:
+                messages.error(request, 'Please correct the error below.')
+                
+    context = {
+        'user': request.user,
+        'form': form,
+    }
+    template = 'main/dashboard.html'
+    return render(request, template, context)
+
 def enroll(request):
     course_id = request.GET['id']
     enrollment = Enrollment()
