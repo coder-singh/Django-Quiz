@@ -314,7 +314,7 @@ View Quiz
                     <div class="col-md-2"><input type="text" name="answermb" value={% with q.answer|split as answers %}{{answers.1}}{% endwith %} disabled></div>
                 <div class="col-md-10">{{q.b2_text}}
                     {% if q.b2_image != '' %}
-                        <img src="/media/{{q.b_image}}" width=5%>
+                        <img src="/media/{{q.b2_image}}" width=5%>
                     {% endif %}
                     {% if q.b2_video != None %}
                     <iframe width="300" height="200" src="{{q.b2_video}}" frameborder="0" allowfullscreen></iframe>
